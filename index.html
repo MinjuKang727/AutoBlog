@@ -17,7 +17,7 @@
             --text-main: #1e293b;
             --text-sub: #64748b;
         }
-        body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 950px; margin: 40px auto; padding: 0 20px; color: var(--text-main); background: var(--bg-color); line-height: 1.5; }
+        body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1050px; margin: 40px auto; padding: 0 20px; color: var(--text-main); background: var(--bg-color); line-height: 1.5; }
         
         /* 탭 메뉴 스타일 */
         .tab-container { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
@@ -53,7 +53,10 @@
         .help-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px; font-size: 0.85rem; color: #1e40af; margin-top: 10px; }
         
         .canvas-preview-container { display: flex; justify-content: center; align-items: center; background: #0f172a; border-radius: 8px; padding: 10px; overflow: auto; min-height: 250px; }
+        
+        /* 메인 최종 미리보기 및 세부 미리보기 공통 캔버스 비율/높이 고정 설정 */
         canvas { max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
         .grid-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 12px; }
         @media (max-width: 768px) { .grid-row { grid-template-columns: 1fr; } }
 
@@ -64,12 +67,12 @@
         .style-chip-delete { background: none; border: none; color: #4338ca; cursor: pointer; font-weight: bold; padding: 0; font-size: 0.9rem; }
         .style-chip-delete:hover { color: #ef4444; }
 
-        /* 컴팩트 인라인 서식 설정 패널 레이아웃 */
-        .compact-style-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; background: #f8fafc; padding: 14px; border: 1px solid var(--border-color); border-radius: 8px; }
-        .style-row { display: flex; gap: 10px; flex-wrap: wrap; }
-        .style-control-cell { display: flex; align-items: center; gap: 8px; background: #fff; padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: var(--text-main); }
-        .style-control-cell input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--primary); }
-        .style-control-cell select, .style-control-cell input[type="number"], .style-control-cell input[type="color"] { flex: 1; padding: 4px 6px; font-size: 0.85rem; }
+        /* 컴팩트 인라인 서식 설정 패널 레이아웃 (최소 너비 적용) */
+        .compact-style-grid { display: flex; flex-direction: column; gap: 8px; background: #f8fafc; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; width: fit-content; }
+        .style-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        .style-control-cell { display: inline-flex; align-items: center; gap: 6px; background: #fff; padding: 6px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: var(--text-main); width: fit-content; white-space: nowrap; }
+        .style-control-cell input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-color: var(--primary); }
+        .style-control-cell select, .style-control-cell input[type="number"], .style-control-cell input[type="color"] { padding: 3px 6px; font-size: 0.85rem; width: auto; }
     </style>
 </head>
 <body>
@@ -189,7 +192,7 @@ $5</textarea>
 
     <!-- ================= TAB 4: 이미지 텍스트 합성기 ================= -->
     <div id="tab-imageText" class="tab-content">
-        <!-- 1. 이미지 선택 및 서식 지정 박스 -->
+        <!-- 1. 이미지 선택 및 기본 설정 박스 -->
         <div class="card">
             <div class="header-flex">
                 <h2>1. 이미지 선택 및 서식 지정</h2>
@@ -210,11 +213,11 @@ $5</textarea>
             <div class="grid-row" style="margin-top: 15px;">
                 <div>
                     <label>전체 배경 색상 (이미지 없을 때 적용)</label>
-                    <input type="color" id="bg-canvas-color" value="#334155" oninput="drawCanvas()">
+                    <input type="color" id="bg-canvas-color" value="#334155" oninput="drawFinalCanvas()">
                 </div>
                 <div>
                     <label>줄 간격 (Line Height)</label>
-                    <input type="number" id="line-height-input" value="60" min="20" max="200" step="5" oninput="drawCanvas()">
+                    <input type="number" id="line-height-input" value="60" min="20" max="200" step="5" oninput="drawFinalCanvas()">
                 </div>
             </div>
 
@@ -230,7 +233,7 @@ $5</textarea>
             </div>
         </div>
 
-        <!-- 2. 스타일 적용 및 저장 박스 -->
+        <!-- 2. 스타일 적용 및 저장 박스 (상하 배치: 세부 옵션 위, 미리보기 아래 행) -->
         <div class="card">
             <div class="header-flex">
                 <h2>2. 스타일 적용 및 저장</h2>
@@ -240,68 +243,71 @@ $5</textarea>
                 <input type="text" id="modal-style-name" placeholder="예: 메인 타이틀 빨간색" style="margin-bottom: 12px;">
 
                 <label>적용할 텍스트 문구 (공백 유지)</label>
-                <input type="text" id="modal-text-input" placeholder="스타일을 적용할 문구를 입력하세요" style="margin-bottom: 15px;">
+                <input type="text" id="modal-text-input" placeholder="스타일을 적용할 문구를 입력하세요" style="margin-bottom: 15px;" oninput="drawSubPreview()">
 
-                <label style="margin-bottom: 6px; font-size: 0.85rem; color: var(--text-sub);">🛠️ 세부 서식 옵션 (체크하면 적용되며 값이 바로 반영됩니다)</label>
+                <label style="margin-bottom: 6px; font-size: 0.85rem; color: var(--text-sub);">🛠️ 세부 서식 옵션</label>
                 
-                <!-- 컴팩트 다중 행 그리드 컨테이너 -->
-                <div class="compact-style-grid">
-                    <!-- 1열: 굵게, 기울임, 밑줄, 취소선 -->
-                    <div class="style-row">
-                        <div class="style-control-cell"><input type="checkbox" id="modal-chk-bold"> 굵게</div>
-                        <div class="style-control-cell"><input type="checkbox" id="modal-chk-italic"> 기울임</div>
-                        <div class="style-control-cell"><input type="checkbox" id="modal-chk-underline"> 밑줄</div>
-                        <div class="style-control-cell"><input type="checkbox" id="modal-chk-strike"> 취소선</div>
-                    </div>
-                    
-                    <!-- 2열: 글씨체, 글씨 크기, 정렬 -->
-                    <div class="style-row">
-                        <div class="style-control-cell">
-                            <input type="checkbox" id="chk-font"> 글씨체
-                            <select id="modal-font-family">
-                                <option value="Pretendard">Pretendard</option>
-                                <option value="Nanum Gothic">Nanum Gothic</option>
-                                <option value="Nanum Pen Script">Nanum Pen</option>
-                                <option value="monospace">Monospace</option>
-                            </select>
+                <!-- 상하 배치 컨테이너 -->
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <!-- 윗줄: 세부 서식 옵션 배열 (최소 너비 유지) -->
+                    <div class="compact-style-grid">
+                        <div class="style-row">
+                            <div class="style-control-cell"><input type="checkbox" id="modal-chk-bold" onchange="drawSubPreview()"> 굵게</div>
+                            <div class="style-control-cell"><input type="checkbox" id="modal-chk-italic" onchange="drawSubPreview()"> 기울임</div>
+                            <div class="style-control-cell"><input type="checkbox" id="modal-chk-underline" onchange="drawSubPreview()"> 밑줄</div>
+                            <div class="style-control-cell"><input type="checkbox" id="modal-chk-strike" onchange="drawSubPreview()"> 취소선</div>
+                            <div class="style-control-cell">
+                                글씨체
+                                <select id="modal-font-family" onchange="drawSubPreview()">
+                                    <option value="Pretendard">Pretendard</option>
+                                    <option value="Nanum Gothic">Nanum Gothic</option>
+                                    <option value="Nanum Pen Script">Nanum Pen</option>
+                                    <option value="monospace">Monospace</option>
+                                </select>
+                            </div>
+                            <div class="style-control-cell">
+                                크기 <input type="number" id="modal-size-val" value="60" min="10" max="300" step="1" style="width: 55px;" oninput="drawSubPreview()">px
+                            </div>
+                            <div class="style-control-cell">
+                                정렬
+                                <select id="modal-text-align" onchange="drawSubPreview()">
+                                    <option value="left" selected>좌측</option>
+                                    <option value="center">중앙</option>
+                                    <option value="right">우측</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="style-control-cell">
-                            <input type="checkbox" id="chk-size"> 글씨 크기(px)
-                            <input type="number" id="modal-size-val" value="60" min="10" max="300" step="1" style="width: 70px;">
-                        </div>
-                        <div class="style-control-cell">
-                            <input type="checkbox" id="chk-align"> 정렬
-                            <select id="modal-text-align">
-                                <option value="left">좌측</option>
-                                <option value="center">중앙</option>
-                                <option value="right">우측</option>
-                            </select>
+                        <div class="style-row">
+                            <div class="style-control-cell">
+                                글자색 <input type="color" id="modal-color-val" value="#000000" oninput="drawSubPreview()" style="width: 32px; height: 26px; padding: 0;">
+                            </div>
+                            <div class="style-control-cell">
+                                <input type="checkbox" id="chk-bgcolor" onchange="drawSubPreview()"> 배경색
+                                <input type="color" id="modal-bgcolor-val" value="#ef4444" style="width: 32px; height: 26px; padding: 0;" oninput="drawSubPreview()">
+                                <input type="number" id="modal-bg-opacity" value="0.5" min="0" max="1" step="0.1" style="width: 60px;" title="투명도" oninput="drawSubPreview()">
+                            </div>
+                            <div class="style-control-cell">
+                                <input type="checkbox" id="chk-stroke" onchange="drawSubPreview()"> 테두리
+                                <input type="number" id="modal-stroke-width" value="2" min="1" max="10" style="width: 60px;" oninput="drawSubPreview()">
+                                <input type="color" id="modal-stroke-color" value="#000000" style="width: 32px; height: 26px; padding: 0;" oninput="drawSubPreview()">
+                            </div>
                         </div>
                     </div>
 
-                    <!-- 3열: 글자색, 배경색, 테두리 -->
-                    <div class="style-row">
-                        <div class="style-control-cell">
-                            <input type="checkbox" id="chk-color"> 글자색
-                            <input type="color" id="modal-color-val" value="#fbbf24" style="width: 45px;">
+                    <!-- 아랫줄(다음 행): 세부 서식 적용된 미리보기 이미지 영역 (세로 높이 고정 및 비율 유지) -->
+                    <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; width: 100%; box-sizing: border-box;">
+                        <label style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 6px;">👁️ 적용된 서식 미리보기</label>
+                        <div style="display: flex; justify-content: center; align-items: center; background: #0f172a; border-radius: 6px; padding: 10px; height: 320px; overflow: hidden; position: relative;">
+                            <canvas id="sub-preview-canvas" style="max-height: 100%; max-width: 100%; width: auto; height: auto; object-fit: contain;"></canvas>
                         </div>
-                        <div class="style-control-cell">
-                            <input type="checkbox" id="chk-bgcolor"> 배경색 (색상/투명도)
-                            <input type="color" id="modal-bgcolor-val" value="#ef4444" style="width: 45px;">
-                            <input type="number" id="modal-bg-opacity" value="0.5" min="0" max="1" step="0.1" style="width: 55px;" title="투명도 (0~1)">
-                        </div>
-                        <div class="style-control-cell">
-                            <input type="checkbox" id="chk-stroke"> 테두리 (두께/색)
-                            <input type="number" id="modal-stroke-width" value="2" min="1" max="10" style="width: 50px;">
-                            <input type="color" id="modal-stroke-color" value="#000000" style="width: 45px;">
-                        </div>
+                        <div style="font-size: 0.75rem; color: var(--text-sub); margin-top: 6px; text-align: center;">최종 텍스트창 맨 뒤에 추가될 때의 모습입니다.</div>
                     </div>
                 </div>
             </div>
 
             <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 15px;">
                 <button class="btn" onclick="saveCurrentStylePreset()">서식만 저장</button>
-                <button class="btn btn-primary" onclick="insertStyledTextToEditor()">+ 텍스트에 추가하기</button>
+                <button class="btn btn-primary" onclick="confirmStyledTextToEditor()">+ 텍스트에 정식 추가</button>
             </div>
         </div>
 
@@ -310,7 +316,7 @@ $5</textarea>
             <div class="header-flex">
                 <h2>3. 이미지에 합성할 최종 텍스트 입력 편집창</h2>
             </div>
-            <textarea id="img-text-input" placeholder="이미지에 출력할 텍스트를 입력하세요... (스타일 태그 포함)" oninput="drawCanvas()" style="white-space: pre;"></textarea>
+            <textarea id="img-text-input" placeholder="이미지에 출력할 텍스트를 입력하세요... (스타일 태그 포함)" oninput="drawFinalCanvas()" style="white-space: pre;"></textarea>
             
             <!-- 저장된 서식 목록 패널 -->
             <div style="margin-top: 14px;">
@@ -344,10 +350,10 @@ $5</textarea>
             <div id="tag-extract-output" class="output-box" style="background: #f0fdf4; border-color: #bbf7d0; min-height: 50px;"></div>
         </div>
 
-        <!-- 5. 미리보기 및 복사/다운로드 -->
+        <!-- 5. 맨 아래 최종 이미지 미리보기 및 복사/다운로드 -->
         <div class="card">
             <div class="header-flex" style="margin-bottom: 6px;">
-                <h2>5. 이미지 합성 결과 미리보기 및 복사/다운로드</h2>
+                <h2>5. 최종 이미지 합성 결과 미리보기 및 복사/다운로드</h2>
                 <div class="btn-group">
                     <button class="btn" onclick="copyImageToClipboard()">클립보드에 이미지 복사</button>
                     <button class="btn btn-primary" onclick="downloadImage()">이미지 파일 다운로드</button>
@@ -696,50 +702,47 @@ $5</textarea>
     // --- Tab 4: 이미지 텍스트 합성 & 서식 프리셋 관리 엔진 ---
     let uploadedImage = null;
 
-<<<<<<< HEAD
-    const presetImages = [];
-=======
-    const presetImages = [
-    { name: "[Naver] korean.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20korean.png" },
-    { name: "[Naver] Gemini에게 물어봐.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20Gemini%EC%97%90%EA%B2%8C%20%EB%AC%BC%EC%96%B4%EB%B4%90.png" },
-    { name: "[Naver] vibe_coding.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20vibe_coding.png" },
-    { name: "[Tistory] coding_test.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BTistory%5D%20coding_test.png" },
-    { name: "[Tistory] python.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BTistory%5D%20python.png" }
-    { name: "[Naver] coding_test.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20coding_test.png" },
-    { name: "[Naver] everyday1.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20everyday1.png" },
-    { name: "[Naver] everyday2.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20everyday2.png" },
-    { name: "[Naver] kuksool.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20kuksool.png" },
-    { name: "[Naver] kuksool_white.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20kuksool_white.png" },
-    { name: "[Naver] ago_computer.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20ago_computer.png" },
-    { name: "[Naver] ago_lock.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20ago_lock.png" },
-    { name: "[Naver] blank.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20blank.png" },
-    { name: "[Naver] cat1.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20cat1.png" },
-    { name: "[Naver] cat2.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20cat2.png" },
-    { name: "[Naver] cat3.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20cat3.png" },
-];
->>>>>>> 9e2251f17b2c58509772745555f3407aa2383963
-
-    function initPresetImages() {
-        const selectEl = document.getElementById('preset-image-select');
-        presetImages.forEach((imgItem) => {
-            const option = document.createElement('option');
-            option.value = imgItem.path;
-            option.textContent = imgItem.name;
-            selectEl.appendChild(option);
-        });
+    // --- GitHub API를 이용해 img 폴더 내 이미지 자동 로드 ---
+    async function fetchGitHubImages() {
+        const owner = "MinjuKang727";
+        const repo = "AutoBlog";
+        const folderPath = "img";
+        const url = `https://api.github.com/repos/${owner}/${repo}/contents/${folderPath}`;
+        
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("네트워크 응답이 올바르지 않습니다.");
+            
+            const files = await response.json();
+            const selectEl = document.getElementById('preset-image-select');
+            
+            selectEl.innerHTML = '<option value="">-- GitHub에서 불러온 이미지 --</option>';
+            
+            files.forEach(file => {
+                if (file.type === "file" && /\.(png|jpg|jpeg|gif|webp)$/i.test(file.name)) {
+                    const decodedName = decodeURIComponent(file.name);
+                    const option = document.createElement('option');
+                    option.value = file.download_url;
+                    option.textContent = decodedName;
+                    selectEl.appendChild(option);
+                }
+            });
+        } catch (error) {
+            console.error("GitHub 이미지 목록 로드 실패:", error);
+        }
     }
 
     function handlePresetSelection(path) {
         if (!path) {
             uploadedImage = null;
-            drawCanvas();
+            onTextInputChange();
             return;
         }
         const img = new Image();
         img.crossOrigin = "anonymous";
         img.onload = function() {
             uploadedImage = img;
-            drawCanvas();
+            onTextInputChange();
         };
         img.src = path;
     }
@@ -755,7 +758,7 @@ $5</textarea>
             const img = new Image();
             img.onload = function() {
                 uploadedImage = img;
-                drawCanvas();
+                onTextInputChange();
             };
             img.src = e.target.result;
         };
@@ -763,7 +766,8 @@ $5</textarea>
     }
 
     function onTextInputChange() {
-        drawCanvas();
+        drawSubPreview();
+        drawFinalCanvas();
     }
 
     function hexToRgba(hex, opacity) {
@@ -780,7 +784,7 @@ $5</textarea>
 
     function buildFormattedTagFromModal() {
         const text = document.getElementById('modal-text-input').value;
-        if (!text) return null;
+        if (text === "") return null;
 
         let attributes = [];
 
@@ -789,15 +793,6 @@ $5</textarea>
         if (document.getElementById('modal-chk-underline').checked) attributes.push('underline:true');
         if (document.getElementById('modal-chk-strike').checked) attributes.push('strike:true');
 
-        if (document.getElementById('chk-font').checked) {
-            attributes.push(`font:${document.getElementById('modal-font-family').value}`);
-        }
-        if (document.getElementById('chk-size').checked) {
-            attributes.push(`size:${document.getElementById('modal-size-val').value}`);
-        }
-        if (document.getElementById('chk-color').checked) {
-            attributes.push(`color:${document.getElementById('modal-color-val').value}`);
-        }
         if (document.getElementById('chk-bgcolor').checked) {
             const hexColor = document.getElementById('modal-bgcolor-val').value;
             const opacity = document.getElementById('modal-bg-opacity').value;
@@ -807,25 +802,150 @@ $5</textarea>
             attributes.push(`strokewidth:${document.getElementById('modal-stroke-width').value}`);
             attributes.push(`strokecolor:${document.getElementById('modal-stroke-color').value}`);
         }
-        if (document.getElementById('chk-align').checked) {
-            attributes.push(`align:${document.getElementById('modal-text-align').value}`);
-        }
+
+        attributes.push(`font:${document.getElementById('modal-font-family').value}`);
+        attributes.push(`size:${document.getElementById('modal-size-val').value}`);
+        attributes.push(`align:${document.getElementById('modal-text-align').value}`);
+        attributes.push(`color:${document.getElementById('modal-color-val').value}`);
 
         attributes.push(`text:${text}`);
         return `{${attributes.join(';')}}`;
     }
 
-    function insertStyledTextToEditor() {
+    // [2번 카드 하단 세부 미리보기] 현재 최종 Textarea 맨 뒤 행에 추가된다고 가정하고 렌더링 (줄바꿈만 입력된 경우도 빈 문자열 체크 대신 length 검사로 반영)
+    function drawSubPreview() {
+        const canvas = document.getElementById('sub-preview-canvas');
+        const ctx = canvas.getContext('2d');
         const formattedTag = buildFormattedTagFromModal();
-        if (!formattedTag) {
+        const baseTextInput = document.getElementById('img-text-input').value;
+
+        let width = uploadedImage ? uploadedImage.width : 800;
+        let height = uploadedImage ? uploadedImage.height : 600;
+        canvas.width = width;
+        canvas.height = height;
+
+        if (uploadedImage) {
+            ctx.drawImage(uploadedImage, 0, 0, width, height);
+        } else {
+            ctx.fillStyle = document.getElementById('bg-canvas-color').value || '#334155';
+            ctx.fillRect(0, 0, width, height);
+        }
+
+        let previewLinesText = baseTextInput;
+        if (formattedTag) {
+            previewLinesText = baseTextInput !== '' ? baseTextInput + '\n' + formattedTag : formattedTag;
+        }
+
+        if (previewLinesText === '') return;
+
+        const lines = previewLinesText.split('\n');
+        let parsedLines = lines.map(line => parseLineSegments(line));
+        const defaultFontSize = 60;
+        const defaultFontFamily = 'Pretendard';
+        const lineHeight = parseInt(document.getElementById('line-height-input').value) || 60;
+
+        let lineWidths = parsedLines.map(segments => {
+            let lineWidth = 0;
+            segments.forEach(seg => {
+                let s = seg.style;
+                let fSize = s.fontSize !== undefined ? s.fontSize : defaultFontSize;
+                let fFamily = s.font || defaultFontFamily;
+                ctx.font = `${s.isBold ? 'bold ' : ''}${s.isItalic ? 'italic ' : ''}${fSize}px "${fFamily}", sans-serif`;
+                lineWidth += ctx.measureText(seg.text).width;
+            });
+            return lineWidth;
+        });
+
+        let maxLineWidth = Math.max(...lineWidths, 0);
+        const totalTextHeight = lines.length * lineHeight;
+        const startY = (height - totalTextHeight) / 2 + defaultFontSize;
+
+        ctx.textBaseline = 'alphabetic';
+
+        parsedLines.forEach((segments, lineIndex) => {
+            let currentLineWidth = lineWidths[lineIndex];
+            
+            let lineTextAlign = 'left';
+            for (let seg of segments) {
+                if (seg.style && seg.style.align) {
+                    lineTextAlign = seg.style.align;
+                    break;
+                }
+            }
+
+            let currentX = 0;
+            if (lineTextAlign === 'center') {
+                currentX = (width - currentLineWidth) / 2;
+            } else if (lineTextAlign === 'left') {
+                currentX = (width - maxLineWidth) / 2;
+            } else if (lineTextAlign === 'right') {
+                currentX = (width + maxLineWidth) / 2 - currentLineWidth;
+            }
+
+            const currentY = startY + (lineIndex * lineHeight);
+
+            segments.forEach(seg => {
+                let s = seg.style;
+                let fSize = s.fontSize !== undefined ? s.fontSize : defaultFontSize;
+                let fFamily = s.font || defaultFontFamily;
+                let fColor = s.color || '#000000';
+                
+                ctx.font = `${s.isBold ? 'bold ' : ''}${s.isItalic ? 'italic ' : ''}${fSize}px "${fFamily}", sans-serif`;
+                let textWidth = ctx.measureText(seg.text).width;
+
+                if (s.bgcolor) {
+                    ctx.fillStyle = s.bgcolor;
+                    ctx.fillRect(currentX, currentY - fSize, textWidth, fSize + 6);
+                }
+
+                if (s.strokeWidth && s.strokeColor) {
+                    ctx.lineWidth = s.strokeWidth;
+                    ctx.strokeStyle = s.strokeColor;
+                    ctx.strokeText(seg.text, currentX, currentY);
+                }
+
+                ctx.fillStyle = fColor;
+                ctx.fillText(seg.text, currentX, currentY);
+
+                if (s.isUnderline || s.isStrike) {
+                    ctx.strokeStyle = fColor;
+                    ctx.lineWidth = Math.max(1, fSize / 15);
+                    ctx.beginPath();
+                    if (s.isUnderline) {
+                        ctx.moveTo(currentX, currentY + 4);
+                        ctx.lineTo(currentX + textWidth, currentY + 4);
+                    }
+                    if (s.isStrike) {
+                        ctx.moveTo(currentX, currentY - fSize / 2.5);
+                        ctx.lineTo(currentX + textWidth, currentY - fSize / 2.5);
+                    }
+                    ctx.stroke();
+                }
+
+                currentX += textWidth;
+            });
+        });
+    }
+
+    // [정식 추가 버튼] 최종 텍스트 입력창 맨 뒤에 다음 행으로 추가
+    function confirmStyledTextToEditor() {
+        const formattedTag = buildFormattedTagFromModal();
+        if (formattedTag === null) {
             alert('적용할 텍스트를 입력해주세요.');
             return;
         }
 
         const textarea = document.getElementById('img-text-input');
-        textarea.value += (textarea.value ? '\n' : '') + formattedTag;
         
-        onTextInputChange();
+        if (textarea.value !== '') {
+            textarea.value += '\n' + formattedTag;
+        } else {
+            textarea.value = formattedTag;
+        }
+
+        document.getElementById('modal-text-input').value = '';
+        drawSubPreview();
+        drawFinalCanvas();
     }
 
     // --- 서식 즐겨찾기(localStorage) 관리 함수들 ---
@@ -883,8 +1003,13 @@ $5</textarea>
 
     function applySavedStyle(tag) {
         const textarea = document.getElementById('img-text-input');
-        textarea.value += (textarea.value ? '\n' : '') + tag;
-        onTextInputChange();
+        if (textarea.value !== '') {
+            textarea.value += '\n' + tag;
+        } else {
+            textarea.value = tag;
+        }
+        drawSubPreview();
+        drawFinalCanvas();
     }
 
     function deleteSavedStyle(id) {
@@ -947,9 +1072,9 @@ $5</textarea>
                     line = line.replace("#정답", "").replace("#매일 #국어 ", "#매일 국어\n");
                     if (line.includes("\n")) {
                         let title_tags = line.split("\n")
-                        processedTags.push(`{bold:true;color:#000000;bgcolor:#fefefc;text: ${title_tags[0].trim()}}`);
+                        processedTags.push(`{font:Pretendard;size:60;align:left;color:#000000;bold:true;bgcolor:#fefefc;text: ${title_tags[0].trim()}}`);
                         title_tags[1].split(" ").forEach(t => {
-                            title_list.push(`{bold:true;color:#ffc800;bgcolor:#fefefc;strokewidth:5;strokecolor:#917259;text:${t}}`);
+                            title_list.push(`{font:Pretendard;size:60;align:left;color:#000000;bold:true;color:#ffc800;bgcolor:#fefefc;strokewidth:5;strokecolor:#917259;text:${t}}`);
                         });
                         processedTags.push(title_list.shift());
                     } else {
@@ -968,8 +1093,7 @@ $5</textarea>
                             return tag.replace(/\./g, '').replace(/_/g, ' ');
                         }).join(" ");
 
-                        // 배율 대신 절대 픽셀값(36px)으로 변경
-                        processedTags.push(`{size:36;color:#000000;bgcolor:#fefefc;text:${tags}}`);
+                        processedTags.push(`{font:Pretendard;size:36;align:left;color:#000000;bgcolor:#fefefc;text:${tags}}`);
                     }
                 });
                 break;
@@ -978,9 +1102,9 @@ $5</textarea>
                     line = line.replace("#매일 #국어 ", "#매일 국어\n");
                     if (line.includes("\n")) {
                         let title_tags = line.split("\n")
-                        processedTags.push(`{bold:true;color:#000000;bgcolor:#fefefc;text: ${title_tags[0].trim()}}`);
+                        processedTags.push(`{font:Pretendard;size:60;align:left;color:#000000;bold:true;bgcolor:#fefefc;text: ${title_tags[0].trim()}}`);
                         title_tags[1].split(" ").forEach(t => {
-                            title_list.push(`\n{bold:true;color:#ffc800;bgcolor:#fefefc;strokewidth:5;strokecolor:#917259;text:${t}}`);
+                            title_list.push(`\n{font:Pretendard;size:60;align:left;color:#000000;bold:true;color:#ffc800;bgcolor:#fefefc;strokewidth:5;strokecolor:#917259;text:${t}}`);
                         });
                         processedTags.push(title_list.shift());
                     } else {
@@ -1003,7 +1127,7 @@ $5</textarea>
 
                 if (kor_matches && kor_matches.length > 0) {
                     let kor_tags = kor_matches.join(" ");
-                    processedTags.push(`{size:36;color:#000000;bgcolor:#fefefc;text:${kor_tags}}`);
+                    processedTags.push(`{font:Pretendard;size:36;align:left;color:#000000;bgcolor:#fefefc;text:${kor_tags}}`);
                 }
 
                 if (title_list.length > 0) {
@@ -1012,7 +1136,7 @@ $5</textarea>
 
                 if (hanja_matches && hanja_matches.length > 0) {
                     let hanja_tags = hanja_matches.join(" ");
-                    processedTags.push(`{size:36;color:#000000;bgcolor:#fefefc;text:${hanja_tags}}`);
+                    processedTags.push(`{font:Pretendard;size:36;align:left;color:#000000;bgcolor:#fefefc;text:${hanja_tags}}`);
                 }
                 break;    
         } 
@@ -1020,6 +1144,8 @@ $5</textarea>
         let result = processedTags.join("\n");
         imgTextInput.value = result;
         window.lastExtractedTagsText = result;
+        drawSubPreview();
+        drawFinalCanvas();
     }
 
     function extractHashTags() {
@@ -1070,28 +1196,33 @@ $5</textarea>
             }
             
             let rawStyle = match[1];
-            // fontSize 필드 추가 (기본값 null)
-            let styleObj = { font: null, align: null, isBold: false, isItalic: false, isUnderline: false, isStrike: false, fontSize: null, color: null, bgcolor: null, strokeWidth: 0, strokeColor: null, text: '' };
+            let styleObj = { font: 'Pretendard', align: 'left', isBold: false, isItalic: false, isUnderline: false, isStrike: false, fontSize: 60, color: '#000000', bgcolor: null, strokeWidth: 0, strokeColor: null, text: '' };
             
-            rawStyle.split(';').forEach(param => {
-                let idx = param.indexOf(':');
-                if (idx === -1) return;
-                let key = param.substring(0, idx).trim();
-                let val = param.substring(idx + 1).trim();
-                
-                if (key === 'text') styleObj.text = val;
-                else if (key === 'font') styleObj.font = val;
-                else if (key === 'align') styleObj.align = val;
-                else if (key === 'bold') styleObj.isBold = (val === 'true');
-                else if (key === 'italic') styleObj.isItalic = (val === 'true');
-                else if (key === 'underline') styleObj.isUnderline = (val === 'true');
-                else if (key === 'strike') styleObj.isStrike = (val === 'true');
-                else if (key === 'size') styleObj.fontSize = parseFloat(val); // 배율이 아닌 픽셀값으로 파싱
-                else if (key === 'color') styleObj.color = val;
-                else if (key === 'bgcolor') styleObj.bgcolor = val;
-                else if (key === 'strokewidth') styleObj.strokeWidth = parseFloat(val);
-                else if (key === 'strokecolor') styleObj.strokeColor = val;
-            });
+            let textIdx = rawStyle.indexOf('text:');
+            if (textIdx !== -1) {
+                let attrPart = rawStyle.substring(0, textIdx);
+                let textPart = rawStyle.substring(textIdx + 5);
+                styleObj.text = textPart;
+
+                attrPart.split(';').forEach(param => {
+                    let idx = param.indexOf(':');
+                    if (idx === -1) return;
+                    let key = param.substring(0, idx).trim();
+                    let val = param.substring(idx + 1).trim();
+                    
+                    if (key === 'font') styleObj.font = val;
+                    else if (key === 'align') styleObj.align = val;
+                    else if (key === 'bold') styleObj.isBold = (val === 'true');
+                    else if (key === 'italic') styleObj.isItalic = (val === 'true');
+                    else if (key === 'underline') styleObj.isUnderline = (val === 'true');
+                    else if (key === 'strike') styleObj.isStrike = (val === 'true');
+                    else if (key === 'size') styleObj.fontSize = parseFloat(val);
+                    else if (key === 'color') styleObj.color = val;
+                    else if (key === 'bgcolor') styleObj.bgcolor = val;
+                    else if (key === 'strokewidth') styleObj.strokeWidth = parseFloat(val);
+                    else if (key === 'strokecolor') styleObj.strokeColor = val;
+                });
+            }
 
             parts.push({ text: styleObj.text, style: styleObj });
             lastIdx = regex.lastIndex;
@@ -1103,13 +1234,14 @@ $5</textarea>
         return parts;
     }
 
-    function drawCanvas() {
+    // [맨 아래 최종 이미지 캔버스 렌더링 함수]
+    function drawFinalCanvas() {
         const canvas = document.getElementById('result-canvas');
         const ctx = canvas.getContext('2d');
         const textInput = document.getElementById('img-text-input').value;
         const defaultFontFamily = 'Pretendard';
-        const baseFontSize = 60; // 지정되지 않았을 때의 기본 폰트 크기
-        const defaultFontColor = '#ffffff';
+        const defaultFontSize = 60;
+        const defaultFontColor = '#000000';
         const lineHeight = parseInt(document.getElementById('line-height-input').value) || 60;
         const canvasBgColor = document.getElementById('bg-canvas-color').value || '#334155';
 
@@ -1133,7 +1265,7 @@ $5</textarea>
             let lineWidth = 0;
             segments.forEach(seg => {
                 let s = seg.style;
-                let fSize = s.fontSize || baseFontSize; // 픽셀값 직접 반영
+                let fSize = s.fontSize !== undefined ? s.fontSize : defaultFontSize;
                 let fFamily = s.font || defaultFontFamily;
                 ctx.font = `${s.isBold ? 'bold ' : ''}${s.isItalic ? 'italic ' : ''}${fSize}px "${fFamily}", sans-serif`;
                 lineWidth += ctx.measureText(seg.text).width;
@@ -1143,7 +1275,7 @@ $5</textarea>
 
         let maxLineWidth = Math.max(...lineWidths, 0);
         const totalTextHeight = lines.length * lineHeight;
-        const startY = (height - totalTextHeight) / 2 + baseFontSize;
+        const startY = (height - totalTextHeight) / 2 + defaultFontSize;
 
         ctx.textBaseline = 'alphabetic';
 
@@ -1171,7 +1303,7 @@ $5</textarea>
 
             segments.forEach(seg => {
                 let s = seg.style;
-                let fSize = s.fontSize || baseFontSize; // 픽셀값 직접 반영
+                let fSize = s.fontSize !== undefined ? s.fontSize : defaultFontSize;
                 let fFamily = s.font || defaultFontFamily;
                 let fColor = s.color || defaultFontColor;
                 
@@ -1507,13 +1639,15 @@ $5</textarea>
     }
 
     // 초기 실행
-    initPresetImages();
+    fetchGitHubImages();
     renderChips(defaultPatterns);
     renderSteps();
     runHanjaConverter();
     runSpellingConverter();
     runProverbConverter();
     renderSavedStyles();
+    drawSubPreview();
+    drawFinalCanvas();
 </script>
 
 </body>
