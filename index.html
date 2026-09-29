@@ -32,8 +32,8 @@
         h2 { font-size: 1.15rem; font-weight: 700; margin-top: 0; color: #0f172a; margin-bottom: 12px; }
         label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.88rem; color: #475569; }
         
-        textarea, input[type="text"], input[type="number"], input[type="color"], select { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; box-sizing: border-box; font-family: 'JetBrains Mono', monospace; background: #fff; }
-        input[type="color"] { height: 40px; padding: 4px; cursor: pointer; }
+        textarea, input[type="text"], input[type="number"], input[type="color"], select { width: 100%; padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem; box-sizing: border-box; font-family: 'JetBrains Mono', monospace; background: #fff; }
+        input[type="color"] { height: 34px; padding: 2px; cursor: pointer; }
         textarea:focus, input:focus, select:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
         textarea { height: 130px; resize: vertical; }
 
@@ -48,18 +48,10 @@
         .btn-danger:hover { background: #fef2f2; border-color: #f87171; }
         .btn-text { background: none; border: none; color: var(--text-sub); font-size: 0.8rem; cursor: pointer; padding: 0; }
         .btn-text:hover { text-decoration: underline; }
+        .hidden-file { display: none; }
         
         .help-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px; font-size: 0.85rem; color: #1e40af; margin-top: 10px; }
         
-        /* 모달 팝업 스타일 */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-overlay.active { display: flex; }
-        .modal-box { background: #fff; padding: 24px; border-radius: 12px; width: 450px; max-width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-weight: 700; font-size: 1.1rem; }
-        .modal-body { margin-bottom: 20px; }
-        .style-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-        .style-option-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 500; cursor: pointer; background: #f8fafc; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border-color); }
-
         .canvas-preview-container { display: flex; justify-content: center; align-items: center; background: #0f172a; border-radius: 8px; padding: 10px; overflow: auto; min-height: 250px; }
         canvas { max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .grid-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 12px; }
@@ -72,25 +64,12 @@
         .style-chip-delete { background: none; border: none; color: #4338ca; cursor: pointer; font-weight: bold; padding: 0; font-size: 0.9rem; }
         .style-chip-delete:hover { color: #ef4444; }
 
-        /* 정규식 테스터 전용 스타일 */
-        .checkbox-group { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 10px; font-size: 0.9rem; align-items: center; }
-        .checkbox-group label { font-weight: normal; cursor: pointer; display: flex; align-items: center; gap: 6px; color: var(--text-sub); margin-bottom: 0; }
-        .checkbox-group input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; }
-        .pattern-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .pattern-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-        .chip { background: #f1f5f9; border: 1px solid var(--border-color); padding: 7px 14px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; color: #334155; font-weight: 500; transition: all 0.2s; }
-        .chip:hover { background: #e2e8f0; color: #0f172a; border-color: #cbd5e1; transform: translateY(-1px); }
-        .tooltip-container { position: relative; display: inline-block; }
-        .file-upload-label { font-size: 0.8rem; color: var(--primary); cursor: pointer; font-weight: 600; background: #eef2ff; padding: 6px 12px; border-radius: 6px; border: 1px solid #c7d2fe; transition: all 0.2s; display: inline-block; }
-        .file-upload-label:hover { background: #eef2ff; color: var(--primary-hover); }
-        input[type="file"].hidden-file { display: none; }
-        .step-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
-        .step-box { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; display: flex; gap: 12px; align-items: center; }
-        .step-num { font-weight: 700; color: var(--primary); font-size: 0.9rem; min-width: 45px; }
-        .match-card-list { display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto; padding-right: 4px; }
-        .match-item-card { background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
-        .match-badge { background: #f1f5f9; border: 1px solid var(--border-color); padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; color: var(--text-sub); }
-        mark { background: #fef08a; padding: 0 3px; border-radius: 3px; color: #854d0e; font-weight: 500; }
+        /* 컴팩트 인라인 서식 설정 패널 레이아웃 */
+        .compact-style-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; background: #f8fafc; padding: 14px; border: 1px solid var(--border-color); border-radius: 8px; }
+        .style-row { display: flex; gap: 10px; flex-wrap: wrap; }
+        .style-control-cell { display: flex; align-items: center; gap: 8px; background: #fff; padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: var(--text-main); }
+        .style-control-cell input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--primary); }
+        .style-control-cell select, .style-control-cell input[type="number"], .style-control-cell input[type="color"] { flex: 1; padding: 4px 6px; font-size: 0.85rem; }
     </style>
 </head>
 <body>
@@ -210,15 +189,16 @@ $5</textarea>
 
     <!-- ================= TAB 4: 이미지 텍스트 합성기 ================= -->
     <div id="tab-imageText" class="tab-content">
+        <!-- 1. 이미지 선택 및 서식 지정 박스 -->
         <div class="card">
             <div class="header-flex">
-                <h2>1. 배경 이미지 선택 및 전체 스타일</h2>
+                <h2>1. 이미지 선택 및 서식 지정</h2>
             </div>
             <div class="grid-row" style="margin-bottom: 12px;">
                 <div>
                     <label>프리셋 이미지 선택</label>
                     <select id="preset-image-select" onchange="handlePresetSelection(this.value)">
-                        <option value="">-- 이미지를 선택하세요 --</option>
+                        <option value="">-- 이미지 없음 (단색 배경) --</option>
                     </select>
                 </div>
                 <div>
@@ -226,66 +206,19 @@ $5</textarea>
                     <input type="file" id="img-file-input" accept="image/*" onchange="handleImageUpload(event)">
                 </div>
             </div>
-            
-            <div class="grid-row">
-                <div>
-                    <label>기본 폰트 (글꼴)</label>
-                    <select id="img-font-family" onchange="drawCanvas()">
-                        <option value="Pretendard" selected>프리텐다드 (Pretendard)</option>
-                        <option value="Nanum Gothic">나눔고딕 (Nanum Gothic)</option>
-                        <option value="Nanum Pen Script">나눔손글씨 펜 (Nanum Pen)</option>
-                        <option value="sans-serif">기본 산세리프 (sans-serif)</option>
-                        <option value="serif">기본 세리프 (serif)</option>
-                        <option value="monospace">고정폭 폰트 (monospace)</option>
-                    </select>
-                </div>
-                <div>
-                    <label>기본 폰트 크기 (px)</label>
-                    <input type="number" id="img-font-size" value="60" min="10" max="200" oninput="drawCanvas()">
-                </div>
-            </div>
 
-            <div class="grid-row">
+            <div class="grid-row" style="margin-top: 15px;">
                 <div>
-                    <label>기본 글자 색상</label>
-                    <input type="color" id="img-font-color" value="#000000" oninput="drawCanvas()">
+                    <label>전체 배경 색상 (이미지 없을 때 적용)</label>
+                    <input type="color" id="bg-canvas-color" value="#334155" oninput="drawCanvas()">
                 </div>
                 <div>
                     <label>줄 간격 (Line Height)</label>
-                    <input type="number" id="img-line-height" value="80" min="10" max="300" oninput="drawCanvas()">
+                    <input type="number" id="line-height-input" value="60" min="20" max="200" step="5" oninput="drawCanvas()">
                 </div>
             </div>
 
-            <div class="grid-row">
-                <div>
-                    <label>텍스트 정렬 (Alignment)</label>
-                    <select id="img-text-align" onchange="drawCanvas()">
-                        <option value="center">가운데 정렬</option>
-                        <option value="left" selected>왼쪽 정렬</option>
-                        <option value="right">오른쪽 정렬</option>
-                    </select>
-                </div>
-                <div>
-                    <label>텍스트 배경 박스 여부</label>
-                    <select id="img-use-bg" onchange="drawCanvas()">
-                        <option value="yes">사용함</option>
-                        <option value="no" selected>사용 안 함</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="grid-row">
-                <div>
-                    <label>배경 박스 투명도 (0 ~ 1)</label>
-                    <input type="number" id="img-bg-opacity" value="0.5" min="0" max="1" step="0.05" oninput="drawCanvas()">
-                </div>
-                <div>
-                    <label>배경 박스 색상</label>
-                    <input type="color" id="img-bg-color" value="#ffffff" oninput="drawCanvas()">
-                </div>
-            </div>
-
-            <div class="grid-row">
+            <div class="grid-row" style="margin-top: 15px;">
                 <div>
                     <label>컨텐츠 서식</label>
                     <select id="txt-style-select" onchange="applyContentsStyle()">
@@ -297,12 +230,87 @@ $5</textarea>
             </div>
         </div>
 
+        <!-- 2. 스타일 적용 및 저장 박스 -->
         <div class="card">
             <div class="header-flex">
-                <h2>2. 이미지에 합성할 텍스트 입력 및 저장된 서식</h2>
-                <button class="btn btn-primary" onclick="openStyleModal()">+ 새 스타일 생성/추가</button>
+                <h2>2. 스타일 적용 및 저장</h2>
             </div>
-            <textarea id="img-text-input" placeholder="이미지에 출력할 텍스트를 입력하세요... (스타일 태그 포함)" oninput="drawCanvas()"></textarea>
+            <div style="margin-bottom: 12px;">
+                <label>서식 이름 (저장용)</label>
+                <input type="text" id="modal-style-name" placeholder="예: 메인 타이틀 빨간색" style="margin-bottom: 12px;">
+
+                <label>적용할 텍스트 문구 (공백 유지)</label>
+                <input type="text" id="modal-text-input" placeholder="스타일을 적용할 문구를 입력하세요" style="margin-bottom: 15px;">
+
+                <label style="margin-bottom: 6px; font-size: 0.85rem; color: var(--text-sub);">🛠️ 세부 서식 옵션 (체크하면 적용되며 값이 바로 반영됩니다)</label>
+                
+                <!-- 컴팩트 다중 행 그리드 컨테이너 -->
+                <div class="compact-style-grid">
+                    <!-- 1열: 굵게, 기울임, 밑줄, 취소선 -->
+                    <div class="style-row">
+                        <div class="style-control-cell"><input type="checkbox" id="modal-chk-bold"> 굵게</div>
+                        <div class="style-control-cell"><input type="checkbox" id="modal-chk-italic"> 기울임</div>
+                        <div class="style-control-cell"><input type="checkbox" id="modal-chk-underline"> 밑줄</div>
+                        <div class="style-control-cell"><input type="checkbox" id="modal-chk-strike"> 취소선</div>
+                    </div>
+                    
+                    <!-- 2열: 글씨체, 글씨 크기, 정렬 -->
+                    <div class="style-row">
+                        <div class="style-control-cell">
+                            <input type="checkbox" id="chk-font"> 글씨체
+                            <select id="modal-font-family">
+                                <option value="Pretendard">Pretendard</option>
+                                <option value="Nanum Gothic">Nanum Gothic</option>
+                                <option value="Nanum Pen Script">Nanum Pen</option>
+                                <option value="monospace">Monospace</option>
+                            </select>
+                        </div>
+                        <div class="style-control-cell">
+                            <input type="checkbox" id="chk-size"> 글씨 크기(px)
+                            <input type="number" id="modal-size-val" value="60" min="10" max="300" step="1" style="width: 70px;">
+                        </div>
+                        <div class="style-control-cell">
+                            <input type="checkbox" id="chk-align"> 정렬
+                            <select id="modal-text-align">
+                                <option value="left">좌측</option>
+                                <option value="center">중앙</option>
+                                <option value="right">우측</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 3열: 글자색, 배경색, 테두리 -->
+                    <div class="style-row">
+                        <div class="style-control-cell">
+                            <input type="checkbox" id="chk-color"> 글자색
+                            <input type="color" id="modal-color-val" value="#fbbf24" style="width: 45px;">
+                        </div>
+                        <div class="style-control-cell">
+                            <input type="checkbox" id="chk-bgcolor"> 배경색 (색상/투명도)
+                            <input type="color" id="modal-bgcolor-val" value="#ef4444" style="width: 45px;">
+                            <input type="number" id="modal-bg-opacity" value="0.5" min="0" max="1" step="0.1" style="width: 55px;" title="투명도 (0~1)">
+                        </div>
+                        <div class="style-control-cell">
+                            <input type="checkbox" id="chk-stroke"> 테두리 (두께/색)
+                            <input type="number" id="modal-stroke-width" value="2" min="1" max="10" style="width: 50px;">
+                            <input type="color" id="modal-stroke-color" value="#000000" style="width: 45px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 15px;">
+                <button class="btn" onclick="saveCurrentStylePreset()">서식만 저장</button>
+                <button class="btn btn-primary" onclick="insertStyledTextToEditor()">+ 텍스트에 추가하기</button>
+            </div>
+        </div>
+
+        <!-- 3. 최종 편집창 및 즐겨찾기 서식 박스 -->
+        <div class="card">
+            <div class="header-flex">
+                <h2>3. 이미지에 합성할 최종 텍스트 입력 편집창</h2>
+            </div>
+            <textarea id="img-text-input" placeholder="이미지에 출력할 텍스트를 입력하세요... (스타일 태그 포함)" oninput="drawCanvas()" style="white-space: pre;"></textarea>
             
             <!-- 저장된 서식 목록 패널 -->
             <div style="margin-top: 14px;">
@@ -315,14 +323,15 @@ $5</textarea>
                     </div>
                 </div>
                 <div id="saved-styles-container" class="saved-style-chips">
-                    <span style="font-size: 0.82rem; color: #94a3b8;">저장된 서식이 없습니다. 모달에서 스타일을 만든 후 저장해 보세요!</span>
+                    <span style="font-size: 0.82rem; color: #94a3b8;">저장된 서식이 없습니다. 위에서 스타일을 만든 후 저장해 보세요!</span>
                 </div>
             </div>
         </div>
 
+        <!-- 4. 해시태그 추출 -->
         <div class="card">
             <div class="header-flex">
-                <h2>3. #단어(#해시태그) 추출용 텍스트 입력</h2>
+                <h2>4. #단어(#해시태그) 추출용 텍스트 입력</h2>
                 <button class="btn-text" onclick="document.getElementById('tag-source-input').value=''; extractHashTags();">지우기</button>
             </div>
             <textarea id="tag-source-input" placeholder="#단어들을 추출할 원문 텍스트를 입력하세요..." style="height: 100px; margin-bottom: 15px;" oninput="extractHashTags()"></textarea>
@@ -335,9 +344,10 @@ $5</textarea>
             <div id="tag-extract-output" class="output-box" style="background: #f0fdf4; border-color: #bbf7d0; min-height: 50px;"></div>
         </div>
 
+        <!-- 5. 미리보기 및 복사/다운로드 -->
         <div class="card">
             <div class="header-flex" style="margin-bottom: 6px;">
-                <h2>4. 이미지 합성 결과 미리보기 및 복사/다운로드</h2>
+                <h2>5. 이미지 합성 결과 미리보기 및 복사/다운로드</h2>
                 <div class="btn-group">
                     <button class="btn" onclick="copyImageToClipboard()">클립보드에 이미지 복사</button>
                     <button class="btn btn-primary" onclick="downloadImage()">이미지 파일 다운로드</button>
@@ -345,87 +355,6 @@ $5</textarea>
             </div>
             <div class="canvas-preview-container">
                 <canvas id="result-canvas"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= 스타일 추가/저장 모달 팝업 ================= -->
-    <div id="style-modal" class="modal-overlay">
-        <div class="modal-box">
-            <div class="modal-header">
-                <span>🎨 텍스트 서식 생성 및 저장</span>
-                <button class="btn-text" onclick="closeStyleModal()">✕ 닫기</button>
-            </div>
-            <div class="modal-body">
-                <label>서식 이름 (저장용)</label>
-                <input type="text" id="modal-style-name" placeholder="예: 메인 타이틀 빨간색" style="margin-bottom: 12px;">
-
-                <label>적용할 텍스트 문구</label>
-                <input type="text" id="modal-text-input" placeholder="스타일을 적용할 문구를 입력하세요" style="margin-bottom: 15px;">
-
-                <div class="grid-row" style="margin-bottom: 12px;">
-                    <div>
-                        <label>개별 폰트 설정</label>
-                        <select id="modal-font-family">
-                            <option value="">기본 폰트 따름</option>
-                            <option value="Pretendard">Pretendard</option>
-                            <option value="Nanum Gothic">Nanum Gothic</option>
-                            <option value="Nanum Pen Script">Nanum Pen</option>
-                            <option value="monospace">Monospace</option>
-                        </select>
-                    </div>
-                    <div></div>
-                </div>
-
-                <label>적용할 스타일 선택</label>
-                <div class="style-options-grid">
-                    <label class="style-option-item"><input type="checkbox" id="modal-chk-bold"> 굵게 (Bold)</label>
-                    <label class="style-option-item"><input type="checkbox" id="modal-chk-italic"> 기울임 (Italic)</label>
-                    <label class="style-option-item"><input type="checkbox" id="modal-chk-underline"> 밑줄 (Underline)</label>
-                    <label class="style-option-item"><input type="checkbox" id="modal-chk-strike"> 취소선 (Strike)</label>
-                </div>
-
-                <div style="margin-top: 15px;">
-                    <label class="style-option-item" style="width: 100%; margin-bottom: 8px;">
-                        <input type="checkbox" id="modal-chk-size" onchange="toggleInput('modal-size-val', this.checked)"> 크기 배율 변경
-                    </label>
-                    <input type="number" id="modal-size-val" value="1.5" min="0.5" max="3" step="0.1" disabled>
-                </div>
-
-                <div style="margin-top: 12px;">
-                    <label class="style-option-item" style="width: 100%; margin-bottom: 8px;">
-                        <input type="checkbox" id="modal-chk-color" onchange="toggleInput('modal-color-val', this.checked)"> 글자 색상 지정
-                    </label>
-                    <input type="color" id="modal-color-val" value="#fbbf24" disabled>
-                </div>
-
-                <div style="margin-top: 12px;">
-                    <label class="style-option-item" style="width: 100%; margin-bottom: 8px;">
-                        <input type="checkbox" id="modal-chk-bgcolor" onchange="toggleInput('modal-bgcolor-val', this.checked)"> 글자 배경색 지정
-                    </label>
-                    <input type="color" id="modal-bgcolor-val" value="#ef4444" disabled>
-                </div>
-
-                <div style="margin-top: 12px;">
-                    <label class="style-option-item" style="width: 100%; margin-bottom: 8px;">
-                        <input type="checkbox" id="modal-chk-stroke" onchange="toggleInput('modal-stroke-width', this.checked); toggleInput('modal-stroke-color', this.checked);"> 텍스트 테두리 지정
-                    </label>
-                    <div class="grid-row" style="margin-top: 8px; margin-bottom: 0;">
-                        <div>
-                            <label style="font-size: 0.75rem; margin-bottom: 4px;">두께 (px)</label>
-                            <input type="number" id="modal-stroke-width" value="2" min="1" max="20" disabled>
-                        </div>
-                        <div>
-                            <label style="font-size: 0.75rem; margin-bottom: 4px;">색상</label>
-                            <input type="color" id="modal-stroke-color" value="#000000" disabled>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div style="display: flex; gap: 8px; justify-content: flex-end;">
-                <button class="btn" onclick="closeStyleModal()">취소</button>
-                <button class="btn" onclick="saveCurrentStylePreset()">서식만 저장</button>
-                <button class="btn btn-primary" onclick="insertStyledTextToEditor()">텍스트에 추가하기</button>
             </div>
         </div>
     </div>
@@ -631,11 +560,9 @@ $5</textarea>
         lines.forEach(line => {
             if (!line.trim()) return;
 
-            // 1. 문제 영역용: 별표(*)만 제거하고 괄호 형태와 내용은 원본 그대로 유지
             let cleanProblemLine = line.replace(/\*/g, '').trim();
             problemLines.push(cleanProblemLine);
 
-            // 2. 정답 영역용 처리 (복수 정답 및 해시태그 추출)
             const regex = /\(([^)]+)\)/g;
             let matches = [...line.matchAll(regex)];
             
@@ -769,22 +696,7 @@ $5</textarea>
     // --- Tab 4: 이미지 텍스트 합성 & 서식 프리셋 관리 엔진 ---
     let uploadedImage = null;
 
-    const presetImages = [
-        { name: "국어", path: "https://raw.githubusercontent.com/MinjuKang727/Small_project2/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/AutoBlog/img/korean.png" },
-        { name: "아고 with 잠금장치", path: "https://raw.githubusercontent.com/MinjuKang727/Small_project2/0b5910a3c4ac2f004d74f5a3e1d348b72aae5a2e/AutoBlog/img/ago_lock.png" },
-        { name: "아고 with 컴퓨터", path: "https://raw.githubusercontent.com/MinjuKang727/Small_project2/0b5910a3c4ac2f004d74f5a3e1d348b72aae5a2e/AutoBlog/img/ago_computer.png" },
-        { name: "코딩테스트", path: "https://raw.githubusercontent.com/MinjuKang727/Small_project2/63b263f7c09fd5e6edacba77720d335d5cc5f037/AutoBlog/img/coding_test.png" },
-        { name: "국술", path: "https://raw.githubusercontent.com/MinjuKang727/Small_project2/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/AutoBlog/img/kuksool.png" },
-        { name: "국술 흰 배경", path: "https://raw.githubusercontent.com/MinjuKang727/Small_project2/e1ff0c67d29d51836a1b87f96478c22402046d46/AutoBlog/img/kuksool_white.png" },
-        { name: "매일1", path: "https://raw.githubusercontent.com/MinjuKang727/Small_project2/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/AutoBlog/img/everyday1.png" },
-        { name: "매일2", path: "https://raw.githubusercontent.com/MinjuKang727/Small_project2/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/AutoBlog/img/everyday2.png" },
-        { name: "고양이1", path: "https://raw.githubusercontent.com/MinjuKang727/Small_project2/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/AutoBlog/img/cat1.png" },
-        { name: "고양이2", path: "https://raw.githubusercontent.com/MinjuKang727/Small_project2/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/AutoBlog/img/cat2.png" },
-        { name: "고양이3", path: "https://raw.githubusercontent.com/MinjuKang727/Small_project2/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/AutoBlog/img/cat3.png" },
-        { name: "빈 이미지", path: "https://raw.githubusercontent.com/MinjuKang727/Small_project2/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/AutoBlog/img/blank.png" },
-        { name: "샘플 명함/카드", path: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" },
-        { name: "풍경 그라데이션", path: "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800" }
-    ];
+    const presetImages = [];
 
     function initPresetImages() {
         const selectEl = document.getElementById('preset-image-select');
@@ -797,7 +709,11 @@ $5</textarea>
     }
 
     function handlePresetSelection(path) {
-        if (!path) return;
+        if (!path) {
+            uploadedImage = null;
+            drawCanvas();
+            return;
+        }
         const img = new Image();
         img.crossOrigin = "anonymous";
         img.onload = function() {
@@ -829,49 +745,49 @@ $5</textarea>
         drawCanvas();
     }
 
-    function openStyleModal() {
-        document.getElementById('style-modal').classList.add('active');
-        document.getElementById('modal-text-input').value = '';
-        document.getElementById('modal-style-name').value = '';
-        document.getElementById('modal-font-family').value = '';
+    function hexToRgba(hex, opacity) {
+        let c = hex.replace('#', '');
+        if (c.length === 3) {
+            c = c.split('').map(char => char + char).join('');
+        }
+        const num = parseInt(c, 16);
+        const r = (num >> 16) & 255;
+        const g = (num >> 8) & 255;
+        const b = num & 255;
+        return `rgba(${r}, ${g}, ${b}, ${opacity})`;
     }
 
-    function closeStyleModal() {
-        document.getElementById('style-modal').classList.remove('active');
-    }
-
-    function toggleInput(id, enable) {
-        document.getElementById(id).disabled = !enable;
-    }
-
-    // 모달 설정 값으로부터 포맷된 태그 문자열 생성
     function buildFormattedTagFromModal() {
-        const text = document.getElementById('modal-text-input').value.trim();
+        const text = document.getElementById('modal-text-input').value;
         if (!text) return null;
 
         let attributes = [];
-        const fontFamily = document.getElementById('modal-font-family').value;
-        if (fontFamily) {
-            attributes.push(`font:${fontFamily}`);
-        }
 
         if (document.getElementById('modal-chk-bold').checked) attributes.push('bold:true');
         if (document.getElementById('modal-chk-italic').checked) attributes.push('italic:true');
         if (document.getElementById('modal-chk-underline').checked) attributes.push('underline:true');
         if (document.getElementById('modal-chk-strike').checked) attributes.push('strike:true');
-        
-        if (document.getElementById('modal-chk-size').checked) {
+
+        if (document.getElementById('chk-font').checked) {
+            attributes.push(`font:${document.getElementById('modal-font-family').value}`);
+        }
+        if (document.getElementById('chk-size').checked) {
             attributes.push(`size:${document.getElementById('modal-size-val').value}`);
         }
-        if (document.getElementById('modal-chk-color').checked) {
+        if (document.getElementById('chk-color').checked) {
             attributes.push(`color:${document.getElementById('modal-color-val').value}`);
         }
-        if (document.getElementById('modal-chk-bgcolor').checked) {
-            attributes.push(`bgcolor:${document.getElementById('modal-bgcolor-val').value}`);
+        if (document.getElementById('chk-bgcolor').checked) {
+            const hexColor = document.getElementById('modal-bgcolor-val').value;
+            const opacity = document.getElementById('modal-bg-opacity').value;
+            attributes.push(`bgcolor:${hexToRgba(hexColor, opacity)}`);
         }
-        if (document.getElementById('modal-chk-stroke').checked) {
+        if (document.getElementById('chk-stroke').checked) {
             attributes.push(`strokewidth:${document.getElementById('modal-stroke-width').value}`);
             attributes.push(`strokecolor:${document.getElementById('modal-stroke-color').value}`);
+        }
+        if (document.getElementById('chk-align').checked) {
+            attributes.push(`align:${document.getElementById('modal-text-align').value}`);
         }
 
         attributes.push(`text:${text}`);
@@ -888,7 +804,6 @@ $5</textarea>
         const textarea = document.getElementById('img-text-input');
         textarea.value += (textarea.value ? '\n' : '') + formattedTag;
         
-        closeStyleModal();
         onTextInputChange();
     }
 
@@ -903,7 +818,7 @@ $5</textarea>
         const formattedTag = buildFormattedTagFromModal();
 
         if (!styleName) {
-            alert('저장할 서식 이름을 입력해주세요.');
+            alert('서식 이름을 입력해주세요.');
             return;
         }
         if (!formattedTag) {
@@ -922,7 +837,6 @@ $5</textarea>
         localStorage.setItem('image_text_styles', JSON.stringify(styles));
         alert(`[${styleName}] 서식이 저장되었습니다!`);
         renderSavedStyles();
-        closeStyleModal();
     }
 
     function renderSavedStyles() {
@@ -930,7 +844,7 @@ $5</textarea>
         const styles = getSavedStyles();
 
         if (styles.length === 0) {
-            container.innerHTML = `<span style="font-size: 0.82rem; color: #94a3b8;">저장된 서식이 없습니다. 모달에서 스타일을 만든 후 저장해 보세요!</span>`;
+            container.innerHTML = `<span style="font-size: 0.82rem; color: #94a3b8;">저장된 서식이 없습니다. 위에서 스타일을 만든 후 저장해 보세요!</span>`;
             return;
         }
 
@@ -939,7 +853,7 @@ $5</textarea>
             const chip = document.createElement('div');
             chip.className = 'style-chip';
             chip.innerHTML = `
-                <span onclick="applySavedStyle('${item.tag}')" title="클릭 시 텍스트 창에 추가">${item.name}</span>
+                <span onclick="applySavedStyle('${item.tag.replace(/'/g, "\\'")}')" title="클릭 시 텍스트 창에 추가">${item.name}</span>
                 <button class="style-chip-delete" onclick="deleteSavedStyle(${item.id})" title="삭제">×</button>
             `;
             container.appendChild(chip);
@@ -1033,7 +947,8 @@ $5</textarea>
                             return tag.replace(/\./g, '').replace(/_/g, ' ');
                         }).join(" ");
 
-                        processedTags.push(`{size:0.9;color:#000000;bgcolor:#fefefc;text:${tags.trim()}}`);
+                        // 배율 대신 절대 픽셀값(36px)으로 변경
+                        processedTags.push(`{size:36;color:#000000;bgcolor:#fefefc;text:${tags}}`);
                     }
                 });
                 break;
@@ -1067,7 +982,7 @@ $5</textarea>
 
                 if (kor_matches && kor_matches.length > 0) {
                     let kor_tags = kor_matches.join(" ");
-                    processedTags.push(`{size:0.9;color:#000000;bgcolor:#fefefc;text:${kor_tags.trim()}}`);
+                    processedTags.push(`{size:36;color:#000000;bgcolor:#fefefc;text:${kor_tags}}`);
                 }
 
                 if (title_list.length > 0) {
@@ -1076,13 +991,13 @@ $5</textarea>
 
                 if (hanja_matches && hanja_matches.length > 0) {
                     let hanja_tags = hanja_matches.join(" ");
-                    processedTags.push(`{size:0.9;color:#000000;bgcolor:#fefefc;text:${hanja_tags.trim()}}`);
+                    processedTags.push(`{size:36;color:#000000;bgcolor:#fefefc;text:${hanja_tags}}`);
                 }
                 break;    
         } 
         
-        let result = processedTags.join("\n").trim();
-        imgTextInput.textContent = result;
+        let result = processedTags.join("\n");
+        imgTextInput.value = result;
         window.lastExtractedTagsText = result;
     }
 
@@ -1103,7 +1018,7 @@ $5</textarea>
         let otherTags = rawTags.filter(t => !korTags.includes(t) && !hanjaTags.includes(t));
 
         let sortedTags = [...korTags, ...otherTags, ...hanjaTags];
-        let result_tags = sortedTags.join(" ").trim();
+        let result_tags = sortedTags.join(" ");
 
         outputBox.textContent = result_tags;
         window.lastExtractedTagsText = result_tags;
@@ -1122,18 +1037,6 @@ $5</textarea>
         });
     }
 
-    function hexToRgba(hex, opacity) {
-        let c = hex.replace('#', '');
-        if (c.length === 3) {
-            c = c.split('').map(char => char + char).join('');
-        }
-        const num = parseInt(c, 16);
-        const r = (num >> 16) & 255;
-        const g = (num >> 8) & 255;
-        const b = num & 255;
-        return `rgba(${r}, ${g}, ${b}, ${opacity})`;
-    }
-
     function parseLineSegments(line) {
         const regex = /\{(.*?)\}/g;
         let parts = [];
@@ -1146,21 +1049,23 @@ $5</textarea>
             }
             
             let rawStyle = match[1];
-            let styleObj = { font: null, bold: false, italic: false, underline: false, strike: false, size: 1, color: null, bgcolor: null, strokeWidth: 0, strokeColor: null, text: '' };
+            // fontSize 필드 추가 (기본값 null)
+            let styleObj = { font: null, align: null, isBold: false, isItalic: false, isUnderline: false, isStrike: false, fontSize: null, color: null, bgcolor: null, strokeWidth: 0, strokeColor: null, text: '' };
             
             rawStyle.split(';').forEach(param => {
-                let [key, val] = param.split(':');
-                if (!key || !val) return;
-                key = key.trim();
-                val = val.trim();
+                let idx = param.indexOf(':');
+                if (idx === -1) return;
+                let key = param.substring(0, idx).trim();
+                let val = param.substring(idx + 1).trim();
                 
                 if (key === 'text') styleObj.text = val;
                 else if (key === 'font') styleObj.font = val;
+                else if (key === 'align') styleObj.align = val;
                 else if (key === 'bold') styleObj.isBold = (val === 'true');
                 else if (key === 'italic') styleObj.isItalic = (val === 'true');
                 else if (key === 'underline') styleObj.isUnderline = (val === 'true');
                 else if (key === 'strike') styleObj.isStrike = (val === 'true');
-                else if (key === 'size') styleObj.sizeMultiplier = parseFloat(val);
+                else if (key === 'size') styleObj.fontSize = parseFloat(val); // 배율이 아닌 픽셀값으로 파싱
                 else if (key === 'color') styleObj.color = val;
                 else if (key === 'bgcolor') styleObj.bgcolor = val;
                 else if (key === 'strokewidth') styleObj.strokeWidth = parseFloat(val);
@@ -1181,14 +1086,11 @@ $5</textarea>
         const canvas = document.getElementById('result-canvas');
         const ctx = canvas.getContext('2d');
         const textInput = document.getElementById('img-text-input').value;
-        const baseFontFamily = document.getElementById('img-font-family').value || 'Pretendard';
-        const baseFontSize = parseInt(document.getElementById('img-font-size').value, 10) || 32;
-        const baseFontColor = document.getElementById('img-font-color').value || '#ffffff';
-        const lineHeight = parseInt(document.getElementById('img-line-height').value, 10) || 48;
-        const textAlign = document.getElementById('img-text-align').value;
-        const useBg = document.getElementById('img-use-bg').value;
-        const bgColorHex = document.getElementById('img-bg-color').value || '#000000';
-        const bgOpacity = parseFloat(document.getElementById('img-bg-opacity').value);
+        const defaultFontFamily = 'Pretendard';
+        const baseFontSize = 60; // 지정되지 않았을 때의 기본 폰트 크기
+        const defaultFontColor = '#ffffff';
+        const lineHeight = parseInt(document.getElementById('line-height-input').value) || 60;
+        const canvasBgColor = document.getElementById('bg-canvas-color').value || '#334155';
 
         let width = uploadedImage ? uploadedImage.width : 800;
         let height = uploadedImage ? uploadedImage.height : 600;
@@ -1199,7 +1101,7 @@ $5</textarea>
         if (uploadedImage) {
             ctx.drawImage(uploadedImage, 0, 0, width, height);
         } else {
-            ctx.fillStyle = '#334155';
+            ctx.fillStyle = canvasBgColor;
             ctx.fillRect(0, 0, width, height);
         }
 
@@ -1210,8 +1112,8 @@ $5</textarea>
             let lineWidth = 0;
             segments.forEach(seg => {
                 let s = seg.style;
-                let fSize = baseFontSize * (s.sizeMultiplier || 1);
-                let fFamily = s.font || baseFontFamily;
+                let fSize = s.fontSize || baseFontSize; // 픽셀값 직접 반영
+                let fFamily = s.font || defaultFontFamily;
                 ctx.font = `${s.isBold ? 'bold ' : ''}${s.isItalic ? 'italic ' : ''}${fSize}px "${fFamily}", sans-serif`;
                 lineWidth += ctx.measureText(seg.text).width;
             });
@@ -1222,42 +1124,35 @@ $5</textarea>
         const totalTextHeight = lines.length * lineHeight;
         const startY = (height - totalTextHeight) / 2 + baseFontSize;
 
-        let boxWidth = maxLineWidth;
-        let boxStartX = (width - boxWidth) / 2;
-
-        if (useBg === 'yes' && lines.length > 0) {
-            ctx.fillStyle = hexToRgba(bgColorHex, isNaN(bgOpacity) ? 0.5 : bgOpacity);
-            const paddingX = 30;
-            const paddingY = 20;
-            ctx.fillRect(
-                boxStartX - paddingX, 
-                startY - baseFontSize - paddingY, 
-                boxWidth + (paddingX * 2), 
-                totalTextHeight + (paddingY * 2) - (lineHeight - baseFontSize)
-            );
-        }
-
         ctx.textBaseline = 'alphabetic';
 
         parsedLines.forEach((segments, lineIndex) => {
             let currentLineWidth = lineWidths[lineIndex];
-            let currentX = 0;
+            
+            let lineTextAlign = 'left';
+            for (let seg of segments) {
+                if (seg.style && seg.style.align) {
+                    lineTextAlign = seg.style.align;
+                    break;
+                }
+            }
 
-            if (textAlign === 'center') {
+            let currentX = 0;
+            if (lineTextAlign === 'center') {
                 currentX = (width - currentLineWidth) / 2;
-            } else if (textAlign === 'left') {
-                currentX = boxStartX;
-            } else if (textAlign === 'right') {
-                currentX = (width + boxWidth) / 2 - currentLineWidth;
+            } else if (lineTextAlign === 'left') {
+                currentX = (width - maxLineWidth) / 2;
+            } else if (lineTextAlign === 'right') {
+                currentX = (width + maxLineWidth) / 2 - currentLineWidth;
             }
 
             const currentY = startY + (lineIndex * lineHeight);
 
             segments.forEach(seg => {
                 let s = seg.style;
-                let fSize = baseFontSize * (s.sizeMultiplier || 1);
-                let fFamily = s.font || baseFontFamily;
-                let fColor = s.color || baseFontColor;
+                let fSize = s.fontSize || baseFontSize; // 픽셀값 직접 반영
+                let fFamily = s.font || defaultFontFamily;
+                let fColor = s.color || defaultFontColor;
                 
                 ctx.font = `${s.isBold ? 'bold ' : ''}${s.isItalic ? 'italic ' : ''}${fSize}px "${fFamily}", sans-serif`;
                 
