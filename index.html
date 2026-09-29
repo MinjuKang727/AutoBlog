@@ -770,25 +770,23 @@ $5</textarea>
     let uploadedImage = null;
 
     const presetImages = [
-        { name: "[Naver] 국어", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/img/korean.png" },
-        { name: "[Tistory] 내코테파이썬", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/4ffe182e40e6598b33d7f91188dd5e59127dc74d/img/%5BTistory%5D%20coding_test.png" },
-        { name: "[Tistory] 파이썬", path: "https://github.com/raw.githubusercontent.com/MinjuKang727/AutoBlog/4ffe182e40e6598b33d7f91188dd5e59127dc74d/img/%5BTistory%5D%20python.png" },
-        { name: "[Naver] Gemini에게 물어봐", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/4ffe182e40e6598b33d7f91188dd5e59127dc74d/img/%5BNaver%5D%20Gemini%EC%97%90%EA%B2%8C%20%EB%AC%BC%EC%96%B4%EB%B4%90.png" },
-        { name: "[Naver] VibeCoding", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/4ffe182e40e6598b33d7f91188dd5e59127dc74d/img/%5BNaver%5D%20vibe_coding.png" },
-        { name: "[Naver] 내코테파이썬", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/63b263f7c09fd5e6edacba77720d335d5cc5f037/img/coding_test.png" },
-        { name: "[Naver] 국술", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/img/kuksool.png" },
-        { name: "[Naver] 국술 흰 배경", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/e1ff0c67d29d51836a1b87f96478c22402046d46/img/kuksool_white.png" },
-        { name: "[Naver] 매일1", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/img/everyday1.png" },
-        { name: "[Naver] 매일2", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/img/everyday2.png" },
-        { name: "[Naver] 아고 with 잠금장치", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/0b5910a3c4ac2f004d74f5a3e1d348b72aae5a2e/img/ago_lock.png" },
-        { name: "[Naver] 아고 with 컴퓨터", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/0b5910a3c4ac2f004d74f5a3e1d348b72aae5a2e/img/ago_computer.png" },
-        { name: "[Naver] 고양이1", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/img/cat1.png" },
-        { name: "[Naver] 고양이2", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/img/cat2.png" },
-        { name: "[Naver] 고양이3", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/img/cat3.png" },
-        { name: "[Naver] 빈 이미지", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/0981257d6a8ca08ef368b19fa5ddb88bcd8542d5/img/blank.png" },
-        { name: "샘플 명함/카드", path: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" },
-        { name: "풍경 그라데이션", path: "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800" }
-    ];
+    { name: "[Naver] korean.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20korean.png" },
+    { name: "[Naver] Gemini에게 물어봐.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20Gemini%EC%97%90%EA%B2%8C%20%EB%AC%BC%EC%96%B4%EB%B4%90.png" },
+    { name: "[Naver] vibe_coding.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20vibe_coding.png" },
+    { name: "[Tistory] coding_test.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BTistory%5D%20coding_test.png" },
+    { name: "[Tistory] python.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BTistory%5D%20python.png" }
+    { name: "[Naver] coding_test.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20coding_test.png" },
+    { name: "[Naver] everyday1.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20everyday1.png" },
+    { name: "[Naver] everyday2.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20everyday2.png" },
+    { name: "[Naver] kuksool.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20kuksool.png" },
+    { name: "[Naver] kuksool_white.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20kuksool_white.png" },
+    { name: "[Naver] ago_computer.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20ago_computer.png" },
+    { name: "[Naver] ago_lock.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20ago_lock.png" },
+    { name: "[Naver] blank.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20blank.png" },
+    { name: "[Naver] cat1.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20cat1.png" },
+    { name: "[Naver] cat2.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20cat2.png" },
+    { name: "[Naver] cat3.png", path: "https://raw.githubusercontent.com/MinjuKang727/AutoBlog/ea3835ce51e4017814a88dbd55aaa537c72520cc/img/%5BNaver%5D%20cat3.png" },
+];
 
     function initPresetImages() {
         const selectEl = document.getElementById('preset-image-select');
