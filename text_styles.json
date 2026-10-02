@@ -2,21 +2,21 @@
   {
     "id": 1726980000001,
     "name": "🌺해커스공무원 TITLE",
-    "tag": "{bold:true;color:#000000;bgcolor:#fefefc;size:55;align:center;text:#해커스공무원 #신민숙 #매일 국어}"
+    "tag": "{bold:true;color:#000000;bgcolor:#fefefc;size:55;align:left;text:#해커스공무원 #신민숙 #매일 국어}"
   },
   {
     "id": 1726980000002,
     "name": "🪖해커스군무원 TITLE",
-    "tag": "{bold:true;color:#000000;bgcolor:#fefefc;size:55;align:center;text:#해커스군무원 #신민숙 #매일 국어}"
+    "tag": "{bold:true;color:#000000;bgcolor:#fefefc;size:55;align:left;text:#해커스군무원 #신민숙 #매일 국어}"
   },
   {
     "id": 1790059602873,
     "name": "💛노랑 소제목",
-    "tag": "{bold:true;color:#ffc800;bgcolor:#fefefc;size:55;align:center;strokewidth:5;strokecolor:#917259;text:#}"
+    "tag": "{bold:true;color:#ffc800;bgcolor:#fefefc;size:55;align:left;strokewidth:5;strokecolor:#917259;text:#}"
   },
   {
     "id": 1790934985356,
     "name": "🖤검정50Text",
-    "tag": "{font:Pretendard;size:50;align:center;color:#000000;text:#}"
+    "tag": "{font:Pretendard;size:50;align:left;color:#000000;text:#}"
   }
 ]
