@@ -1181,7 +1181,7 @@ $5</textarea>
         let sortedTags = [...korTags, ...hanjaTags, korTagsFromKorHanja, hanjaTagsFromKorHanja, ...otherTags];
         let nonEmptyTags = sortedTags.filter(tag => tag.trim() !== "");
         let result_tags = nonEmptyTags.join("\n");
-        let resultText = [...nonEmptyTags].map(tag => `{font:Pretendard;size:50;align:center;color:#000000;text:${tag}}`).join("\n");
+        let resultText = [...nonEmptyTags].map(tag => `{font:Pretendard;size:50;align:left;bgcolor:#fefefc;color:#000000;text:${tag}}`).join("\n");
 
         outputBox.textContent = result_tags;
         window.lastExtractedTagsText = result_tags;
