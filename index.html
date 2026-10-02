@@ -217,7 +217,7 @@ $5</textarea>
                 </div>
                 <div>
                     <label>줄 간격 (Line Height)</label>
-                    <input type="number" id="line-height-input" value="60" min="20" max="200" step="5" oninput="drawFinalCanvas()">
+                    <input type="number" id="line-height-input" value="80" min="20" max="200" step="5" oninput="drawFinalCanvas()">
                 </div>
             </div>
 
@@ -1149,6 +1149,7 @@ $5</textarea>
     }
 
     function extractHashTags() {
+        const finalTextInput = document.getElementById('img-text-input');
         const textInput = document.getElementById('tag-source-input').value;
         const outputBox = document.getElementById('tag-extract-output');
 
@@ -1157,20 +1158,36 @@ $5</textarea>
             if (!matches || matches.length === 0) {
                 return [];
             }
-            return matches.map(tag => tag.replace(/\./g, '').replace(/_/g, ' '));
+            return matches.map(tag => tag.replace(/\./g, '').replace(/_/g, ' ')).filter(l => !/^#정답$/.test(l)).join(" ");
         });
 
         let korTags = rawTags.filter(t => /^#[ㄱ-ㅎㅏ-ㅣ가-힣]+$/.test(t));
         let hanjaTags = rawTags.filter(t => /^#[\u4E00-\u9FFF]+$/.test(t));
-        let otherTags = rawTags.filter(t => !korTags.includes(t) && !hanjaTags.includes(t));
+        let korHanjaTags = rawTags.filter(t => {
+            return /^#[ㄱ-ㅎㅏ-ㅣ가-힣]+\s#[\u4E00-\u9FFF]+$/.test(t)});
 
-        let sortedTags = [...korTags, ...otherTags, ...hanjaTags];
-        let result_tags = sortedTags.join(" ");
+        let otherTags = rawTags.filter(t => !korTags.includes(t) && !hanjaTags.includes(t) && !korHanjaTags.includes(t));
+
+        let korTagsFromKorHanja = korHanjaTags.map(line => {
+            let matches = line.match(/#[ㄱ-ㅎㅏ-ㅣ가-힣]+/g);
+            return matches.join(" ");
+        }).join(" ");
+
+        let hanjaTagsFromKorHanja = korHanjaTags.map(line => {
+            let matches = line.match(/#[\u4E00-\u9FFF]+/g);
+            return matches.join(" ");
+        }).join(" ");
+
+        let sortedTags = [...korTags, ...hanjaTags, korTagsFromKorHanja, hanjaTagsFromKorHanja, ...otherTags];
+        let nonEmptyTags = sortedTags.filter(tag => tag.trim() !== "");
+        let result_tags = nonEmptyTags.join("\n");
+        let resultText = [...nonEmptyTags].map(tag => `{size:0.9;color:#000000;bgcolor:#fefefc;text:${tag}}`).join("\n");
 
         outputBox.textContent = result_tags;
         window.lastExtractedTagsText = result_tags;
-
-        applyContentsStyle();
+        finalTextInput.value = finalTextInput.value ? finalTextInput.value + "\n" + resultText : resultText;
+        drawFinalCanvas()
+        // applyContentsStyle();
     }
 
     function copyExtractedTags() {
