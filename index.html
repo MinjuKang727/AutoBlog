@@ -221,7 +221,7 @@ $5</textarea>
                 </div>
             </div>
 
-            <div class="grid-row" style="margin-top: 15px;">
+            <!-- <div class="grid-row" style="margin-top: 15px;">
                 <div>
                     <label>컨텐츠 서식</label>
                     <select id="txt-style-select" onchange="applyContentsStyle()">
@@ -230,7 +230,7 @@ $5</textarea>
                         <option value="hackers_gunmuwon_kor">해커스 군무원 국어</option>
                     </select>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- 2. 스타일 적용 및 저장 박스 (상하 배치: 세부 옵션 위, 미리보기 아래 행) -->
@@ -315,6 +315,7 @@ $5</textarea>
         <div class="card">
             <div class="header-flex">
                 <h2>3. 이미지에 합성할 최종 텍스트 입력 편집창</h2>
+                <button class="btn-text" onclick="document.getElementById('img-text-input').value='';">지우기</button>
             </div>
             <textarea id="img-text-input" placeholder="이미지에 출력할 텍스트를 입력하세요... (스타일 태그 포함)" oninput="drawFinalCanvas()" style="white-space: pre;"></textarea>
             
@@ -338,6 +339,10 @@ $5</textarea>
         <div class="card">
             <div class="header-flex">
                 <h2>4. #단어(#해시태그) 추출용 텍스트 입력</h2>
+                <div class="style-row">스타일 적용: 
+                    <label><input type="checkbox" name="apply-gongmuwon-style" value="y">해커스공무원🌺</label>
+                    <label><input type="checkbox" name="apply-gunmuwon-style" value="y">해커스군무원🦅</label>
+                </div>
                 <button class="btn-text" onclick="document.getElementById('tag-source-input').value=''; extractHashTags();">지우기</button>
             </div>
             <textarea id="tag-source-input" placeholder="#단어들을 추출할 원문 텍스트를 입력하세요..." style="height: 100px; margin-bottom: 15px;" oninput="extractHashTags()"></textarea>
@@ -1149,6 +1154,10 @@ $5</textarea>
     }
 
     function extractHashTags() {
+        const isGunmuwon = document.querySelector('input[name="apply-gunmuwon-style"]').checked;
+        const isGongmuwon = document.querySelector('input[name="apply-gongmuwon-style"]').checked;
+        const selectPresetIMG = document.getElementById("preset-image-select");
+        const lineHeight = document.getElementById("line-height-input");
         const finalTextInput = document.getElementById('img-text-input');
         const textInput = document.getElementById('tag-source-input').value;
         const outputBox = document.getElementById('tag-extract-output');
@@ -1161,33 +1170,88 @@ $5</textarea>
             return matches.map(tag => tag.replace(/\./g, '').replace(/_/g, ' ')).filter(l => !/^#정답$/.test(l)).join(" ");
         });
 
-        let korTags = rawTags.filter(t => /^#[ㄱ-ㅎㅏ-ㅣ가-힣]+$/.test(t));
-        let hanjaTags = rawTags.filter(t => /^#[\u4E00-\u9FFF]+$/.test(t));
-        let korHanjaTags = rawTags.filter(t => {
-            return /^#[ㄱ-ㅎㅏ-ㅣ가-힣]+\s#[\u4E00-\u9FFF]+$/.test(t)});
+        let korTags = rawTags.filter(t => /^#[ㄱ-ㅎㅏ-ㅣ가-힣]+$/.test(t.trim()));
+        let hanjaTags = rawTags.filter(t => /^#[\u4E00-\u9FFF\uFA00-\uFAFF]+$/.test(t.trim()));
+        let korHanjaTags = rawTags.filter(t => /^#[ㄱ-ㅎㅏ-ㅣ가-힣]+\s#[\u4E00-\u9FFF\uFA00-\uFAFF]+$/.test(t.trim()));
+        let otherTags = rawTags.filter(t => !korTags.includes(t.trim()) && !hanjaTags.includes(t.trim()) && !korHanjaTags.includes(t.trim()));
 
-        let otherTags = rawTags.filter(t => !korTags.includes(t) && !hanjaTags.includes(t) && !korHanjaTags.includes(t));
-
-        let korTagsFromKorHanja = korHanjaTags.map(line => {
-            let matches = line.match(/#[ㄱ-ㅎㅏ-ㅣ가-힣]+/g);
-            return matches.join(" ");
-        }).join(" ");
-
-        let hanjaTagsFromKorHanja = korHanjaTags.map(line => {
-            let matches = line.match(/#[\u4E00-\u9FFF]+/g);
-            return matches.join(" ");
-        }).join(" ");
-
-        let sortedTags = [...korTags, ...hanjaTags, korTagsFromKorHanja, hanjaTagsFromKorHanja, ...otherTags];
+        let korTagsFromKorHanja = korHanjaTags.map(line => line.trim().match(/#[ㄱ-ㅎㅏ-ㅣ가-힣]+/g)[0]);
+        korTagsFromKorHanja = korTagsFromKorHanja.reduce((acc, cur, i, arr) => {
+                                                            if (i % 2 === 0) {
+                                                                acc.push(arr.slice(i, i + 2).join(' '));
+                                                            }
+                                                            return acc;
+                                                        }, []);
+        let hanjaTagsFromKorHanja = korHanjaTags.map(line => line.trim().match(/#[\u4E00-\u9FFF\uFA00-\uFAFF]+/g)[0]);
+        hanjaTagsFromKorHanja = hanjaTagsFromKorHanja.reduce((acc, cur, i, arr) => {
+                                                            if (i % 2 === 0) {
+                                                                acc.push(arr.slice(i, i + 2).join(' '));
+                                                            }
+                                                            return acc;
+                                                        }, []);
+        console.log(korTagsFromKorHanja, hanjaTagsFromKorHanja);
+        let sortedTags = [...korTags, ...hanjaTags, ...korTagsFromKorHanja, ...hanjaTagsFromKorHanja, ...otherTags];
+        console.log(sortedTags);
         let nonEmptyTags = sortedTags.filter(tag => tag.trim() !== "");
         let result_tags = nonEmptyTags.join("\n");
-        let resultText = [...nonEmptyTags].map(tag => `{font:Pretendard;size:50;align:left;bgcolor:#fefefc;color:#000000;text:${tag}}`).join("\n");
 
+
+        let resultText = "";
+        let titleTag = `{bold:true;color:#000000;bgcolor:#fefefc;size:60;align:left;text:#해커스공무원 #신민숙 #매일 국어}\n`
+        if (isGongmuwon || isGunmuwon) {
+            Array.from(selectPresetIMG.options).map(opt => {
+                if (opt.text.trim() == "[Naver] korean.png") {
+                    selectPresetIMG.value = opt.value;
+                }
+            })
+            selectPresetIMG.dispatchEvent(new Event('change'));
+        }
+
+        if (isGongmuwon) {  // 해커스 공무원
+            lineHeight.value = 80;
+            resultText = titleTag;
+            resultText += `\n{bold:true;color:#ffc800;bgcolor:#fefefc;size:60;align:left;strokewidth:5;strokecolor:#3d2400;text:#어휘}\n`;
+            resultText = applyStyle2Tags(resultText, korTagsFromKorHanja);
+            resultText += `\n\n{bold:true;color:#ffc800;bgcolor:#fefefc;size:60;align:left;strokewidth:5;strokecolor:#3d2400;text:#한자}\n`;
+            resultText = applyStyle2Tags(resultText, hanjaTagsFromKorHanja);
+            
+            finalTextInput.value = resultText;
+            
+        } else if (isGunmuwon) {  // 해커스 군무원
+            lineHeight.value = 70;
+            let spelling = otherTags.filter(tag => /^(#[가-힣]+(?:\s+#[가-힣]+)+)$/.test(tag));
+            let proverb = otherTags.filter(tag => !/^(#[가-힣]+(?:\s+#[가-힣]+)+)$/.test(tag));
+            resultText = titleTag.replace("공", "군");
+            resultText += `\n{bold:true;color:#ffc800;size:55;align:left;strokewidth:5;strokecolor:#3d2400;text:#맞춤법}\n`;
+            resultText = applyStyle2Tags(resultText, spelling);
+            resultText += `\n\n{bold:true;color:#ffc800;size:55;align:left;strokewidth:5;strokecolor:#3d2400;text:#속담}\n`;
+            resultText = applyStyle2Tags(resultText, proverb);
+            
+            finalTextInput.value = resultText;
+
+        } else {
+            resultText = applyStyle2Tags(resultText, nonEmptyTags);
+        }
+        
         outputBox.textContent = result_tags;
         window.lastExtractedTagsText = result_tags;
-        finalTextInput.value = finalTextInput.value ? finalTextInput.value + "\n" + resultText : resultText;
         drawFinalCanvas()
         // applyContentsStyle();
+    }
+
+    function applyStyle2Tags(resultText, tags) {
+        console.log(tags);
+        let nonEmptyTags = [...tags].filter(tag => tag.trim() !== "");
+        resultText += [...nonEmptyTags].map(tag => {
+            let result = `{font:Pretendard;size:50;align:left;bgcolor:#fefefc;color:#000000;text:${tag}}`;
+            // if (tag.length > 20) {
+            //     result = `{font:Pretendard;size:45;align:left;bgcolor:#fefefc;color:#000000;text:${tag.slice(0,21)}}\n{font:Pretendard;size:45;align:left;bgcolor:#fefefc;color:#000000;text:  ${tag.slice(21)}}`;
+            // }
+
+            return result;
+            }).join("\n");
+        console.log(resultText);
+        return resultText;
     }
 
     function copyExtractedTags() {
