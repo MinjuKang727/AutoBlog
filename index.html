@@ -340,8 +340,9 @@ $5</textarea>
             <div class="header-flex">
                 <h2>4. #단어(#해시태그) 추출용 텍스트 입력</h2>
                 <div class="style-row">스타일 적용: 
-                    <label><input type="checkbox" name="apply-gongmuwon-style" value="y">해커스공무원🌺</label>
-                    <label><input type="checkbox" name="apply-gunmuwon-style" value="y">해커스군무원🦅</label>
+                    <label><input type="radio" name="img-text-style" value="none" checked>적용 안 함❌</label>
+                    <label><input type="radio" name="img-text-style" value="gongmuwon">해커스공무원🌺</label>
+                    <label><input type="radio" name="img-text-style" value="gunmuwon">해커스군무원🦅</label>
                 </div>
                 <button class="btn-text" onclick="document.getElementById('tag-source-input').value=''; extractHashTags();">지우기</button>
             </div>
@@ -1154,8 +1155,7 @@ $5</textarea>
     }
 
     function extractHashTags() {
-        const isGunmuwon = document.querySelector('input[name="apply-gunmuwon-style"]').checked;
-        const isGongmuwon = document.querySelector('input[name="apply-gongmuwon-style"]').checked;
+        const imgTextStyle = document.querySelector('input[name="img-text-style"]:checked');
         const selectPresetIMG = document.getElementById("preset-image-select");
         const lineHeight = document.getElementById("line-height-input");
         const finalTextInput = document.getElementById('img-text-input');
@@ -1198,7 +1198,7 @@ $5</textarea>
 
         let resultText = "";
         let titleTag = `{bold:true;color:#000000;bgcolor:#fefefc;size:60;align:left;text:#해커스공무원 #신민숙 #매일 국어}\n`
-        if (isGongmuwon || isGunmuwon) {
+        if (imgTextStyle && imgTextStyle.value !== "none") {
             Array.from(selectPresetIMG.options).map(opt => {
                 if (opt.text.trim() == "[Naver] korean.png") {
                     selectPresetIMG.value = opt.value;
@@ -1207,7 +1207,7 @@ $5</textarea>
             selectPresetIMG.dispatchEvent(new Event('change'));
         }
 
-        if (isGongmuwon) {  // 해커스 공무원
+        if (imgTextStyle.value === "gongmuwon") {  // 해커스 공무원
             lineHeight.value = 80;
             resultText = titleTag;
             resultText += `\n{bold:true;color:#ffc800;bgcolor:#fefefc;size:60;align:left;strokewidth:5;strokecolor:#3d2400;text:#어휘}\n`;
@@ -1217,7 +1217,7 @@ $5</textarea>
             
             finalTextInput.value = resultText;
             
-        } else if (isGunmuwon) {  // 해커스 군무원
+        } else if (imgTextStyle.value === "gunmuwon") {  // 해커스 군무원
             lineHeight.value = 70;
             let spelling = otherTags.filter(tag => /^(#[가-힣]+(?:\s+#[가-힣]+)+)$/.test(tag));
             let proverb = otherTags.filter(tag => !/^(#[가-힣]+(?:\s+#[가-힣]+)+)$/.test(tag));
