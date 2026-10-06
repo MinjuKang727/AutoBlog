@@ -1172,10 +1172,10 @@ $5</textarea>
 
         let korTags = rawTags.filter(t => /^#[ㄱ-ㅎㅏ-ㅣ가-힣]+$/.test(t.trim()));
         let hanjaTags = rawTags.filter(t => /^#[\u4E00-\u9FFF\uFA00-\uFAFF]+$/.test(t.trim()));
-        let korHanjaTags = rawTags.filter(t => /^#[ㄱ-ㅎㅏ-ㅣ가-힣]+\s#[\u4E00-\u9FFF\uFA00-\uFAFF]+$/.test(t.trim()));
+        let korHanjaTags = rawTags.filter(t => /^#[ㄱ-ㅎㅏ-ㅣ가-힣]+\s#[\u4E00-\u9FFF\uFA00-\uFAFF]+\-*$/.test(t.trim()));
         let otherTags = rawTags.filter(t => !korTags.includes(t.trim()) && !hanjaTags.includes(t.trim()) && !korHanjaTags.includes(t.trim()));
 
-        let korTagsFromKorHanja = korHanjaTags.map(line => line.trim().match(/#[ㄱ-ㅎㅏ-ㅣ가-힣]+/g)[0]);
+        let korTagsFromKorHanja = korHanjaTags.map(line => line.trim().match(/#[ㄱ-ㅎㅏ-ㅣ가-힣]+\-*/g)[0]);
         korTagsFromKorHanja = korTagsFromKorHanja.reduce((acc, cur, i, arr) => {
                                                             if (i % 2 === 0) {
                                                                 acc.push(arr.slice(i, i + 2).join(' '));
