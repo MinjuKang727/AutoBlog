@@ -387,14 +387,17 @@ $5</textarea>
         if (tabName === 'hanja') {
             document.querySelectorAll('.tab-btn')[0].classList.add('active');
             document.getElementById('tab-hanja').classList.add('active');
+            document.getElementsByName('naver-dict-select').forEach(radio => { if (radio.value === 'hanja') radio.checked = true; else radio.checked = false; });
             runHanjaConverter();
         } else if (tabName === 'spelling') {
             document.querySelectorAll('.tab-btn')[1].classList.add('active');
             document.getElementById('tab-spelling').classList.add('active');
+            document.getElementsByName('naver-dict-select').forEach(radio => { if (radio.value === 'ko') radio.checked = true; else radio.checked = false; });
             runSpellingConverter();
         } else if (tabName === 'proverb') {
             document.querySelectorAll('.tab-btn')[2].classList.add('active');
             document.getElementById('tab-proverb').classList.add('active');
+            document.getElementsByName('naver-dict-select').forEach(radio => { if (radio.value === 'ko') radio.checked = true; else radio.checked = false; });
             runProverbConverter();
         } else if (tabName === 'imageText') {
             document.querySelectorAll('.tab-btn')[3].classList.add('active');
