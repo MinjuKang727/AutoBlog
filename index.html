@@ -91,14 +91,14 @@
         <div class="header-flex">
             <h2 style="color: #9a3412;">🔍 네이버 사전 빠른 검색 (여러 단어 동시 검색 지원)</h2>
         </div>
+        <div class="style-row">
+            <label><input type="radio" name="naver-dict-select" value="hanja" checked>한자</label>
+            <label><input type="radio" name="naver-dict-select" value="ko">한국어</label>
+            <label><input type="radio" name="naver-dict-select" value="en">영어</label>
+            <label><input type="radio" name="naver-dict-select" value="ja">일본어</label>
+            <label><input type="radio" name="naver-dict-select" value="zh">중국어</label>
+        </div>
         <div style="display: flex; gap: 10px;">
-            <select id="naver-dict-select" style="width: 90px;">
-                <option value="hanja" selected>한자</option>
-                <option value="ko">한국어</option>
-                <option value="en">영어</option>
-                <option value="ja">일본어</option>
-                <option value="zh">중국어</option>
-            </select>
             <input type="text" id="naver-dict-input" placeholder="검색할 단어들을 입력하세요 (예: 장래, 學校 또는 띄어쓰기로 여러 개)" style="flex: 1;" onkeypress="handleNaverDictInputKeypress(event)">
             <button class="btn btn-primary" onclick="searchNaverDict()" style="background: #ea580c; border-color: #ea580c;">사전 검색</button>
         </div>
@@ -428,7 +428,7 @@ $5</textarea>
                 return;
             }
         }
-        const dictType = document.getElementById('naver-dict-select').value || 'hanja';
+        const dictType = document.querySelector('input[name=naver-dict-select]:checked').value;
 
         queries.forEach((query, index) => {
             const searchUrl = `https://${dictType}.dict.naver.com/#/search?query=${encodeURIComponent(query)}&range=all`;
