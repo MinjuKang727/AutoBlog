@@ -79,8 +79,8 @@
 
     <!-- 탭 메뉴 선택 버튼 영역 -->
     <div class="tab-container">
-        <button class="tab-btn" onclick="switchTab('hanja')">한자/어휘 템플릿 변환기</button>
-        <button class="tab-btn active" onclick="switchTab('spelling')">맞춤법 보기 문제 변환기</button>
+        <button class="tab-btn active" onclick="switchTab('hanja')">한자/어휘 템플릿 변환기</button>
+        <button class="tab-btn" onclick="switchTab('spelling')">맞춤법 보기 문제 변환기</button>
         <button class="tab-btn" onclick="switchTab('proverb')">속담 제목 공백 변환기</button>
         <button class="tab-btn" onclick="switchTab('imageText')">이미지 텍스트 합성기</button>
         <button class="tab-btn" onclick="switchTab('regexTester')">정규식 파이프라인 테스터</button>
@@ -666,7 +666,7 @@ $5</textarea>
 
     function copySpellingProblems() {
         if (!globalProblemText) { alert('복사할 문제 내용이 없습니다.'); return; }
-        navigator.clipboard.writeText(globalProblemText).then(() => { alert('맞춤법 문제 영역이 클립보드에 복사되었습니다.'); });
+        navigator.clipboard.writeText(`${globalProblemText}\n\n`).then(() => { alert('맞춤법 문제 영역이 클립보드에 복사되었습니다.'); });
     }
 
     function copySpellingTags() {
