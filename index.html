@@ -89,11 +89,18 @@
     <!-- ================= 네이버 한자 사전 빠른 검색 카드 ================= -->
     <div class="card" style="margin-top: 15px; background: #fdf8f6; border-color: #f7dfd7;">
         <div class="header-flex">
-            <h2 style="color: #9a3412;">🔍 네이버 한자 사전 빠른 검색 (여러 단어 동시 검색 지원)</h2>
+            <h2 style="color: #9a3412;">🔍 네이버 사전 빠른 검색 (여러 단어 동시 검색 지원)</h2>
         </div>
         <div style="display: flex; gap: 10px;">
-            <input type="text" id="naver-hanja-input" placeholder="검색할 단어들을 입력하세요 (예: 장래, 學校 또는 띄어쓰기로 여러 개)" style="flex: 1;" onkeypress="handleNaverHanjaKeypress(event)">
-            <button class="btn btn-primary" onclick="searchNaverHanja()" style="background: #ea580c; border-color: #ea580c;">사전 검색</button>
+            <select id="naver-dict-select" style="width: 90px;">
+                <option value="hanja" selected>한자</option>
+                <option value="ko">한국어</option>
+                <option value="en">영어</option>
+                <option value="ja">일본어</option>
+                <option value="zh">중국어</option>
+            </select>
+            <input type="text" id="naver-dict-input" placeholder="검색할 단어들을 입력하세요 (예: 장래, 學校 또는 띄어쓰기로 여러 개)" style="flex: 1;" onkeypress="handleNaverDictInputKeypress(event)">
+            <button class="btn btn-primary" onclick="searchNaverDict()" style="background: #ea580c; border-color: #ea580c;">사전 검색</button>
         </div>
     </div>
 
@@ -315,7 +322,7 @@ $5</textarea>
         <div class="card">
             <div class="header-flex">
                 <h2>3. 이미지에 합성할 최종 텍스트 입력 편집창</h2>
-                <button class="btn-text" onclick="document.getElementById('img-text-input').value='';">지우기</button>
+                <button class="btn-text" onclick="deleteInput('img-text-input');">지우기</button>
             </div>
             <textarea id="img-text-input" placeholder="이미지에 출력할 텍스트를 입력하세요... (스타일 태그 포함)" oninput="drawFinalCanvas()" style="white-space: pre;"></textarea>
             
@@ -340,11 +347,11 @@ $5</textarea>
             <div class="header-flex">
                 <h2>4. #단어(#해시태그) 추출용 텍스트 입력</h2>
                 <div class="style-row">스타일 적용: 
-                    <label><input type="radio" name="img-text-style" value="none" checked>적용 안 함❌</label>
-                    <label><input type="radio" name="img-text-style" value="gongmuwon">해커스공무원🌺</label>
-                    <label><input type="radio" name="img-text-style" value="gunmuwon">해커스군무원🦅</label>
+                    <label><input type="radio" name="img-text-style" value="none" onchange='deleteInput("img-text-input", "tag-source-input");' checked>적용 안 함❌</label>
+                    <label><input type="radio" name="img-text-style" value="gongmuwon" onchange='deleteInput("img-text-input", "tag-source-input");'>해커스공무원🌺</label>
+                    <label><input type="radio" name="img-text-style" value="gunmuwon" onchange='deleteInput("img-text-input", "tag-source-input");'>해커스군무원🦅</label>
                 </div>
-                <button class="btn-text" onclick="document.getElementById('tag-source-input').value=''; extractHashTags();">지우기</button>
+                <button class="btn-text" onclick="extractHashTags();">지우기</button>
             </div>
             <textarea id="tag-source-input" placeholder="#단어들을 추출할 원문 텍스트를 입력하세요..." style="height: 100px; margin-bottom: 15px;" oninput="extractHashTags()"></textarea>
 
@@ -402,16 +409,16 @@ $5</textarea>
     }
 
     // --- 네이버 한자 사전 여러 단어 동시 검색 함수 ---
-    function handleNaverHanjaKeypress(event) {
+    function handleNaverDictInputKeypress(event) {
         if (event.key === 'Enter') {
-            searchNaverHanja();
+            searchNaverDict();
         }
     }
 
-    function searchNaverHanja() {
-        const rawInput = document.getElementById('naver-hanja-input').value.trim();
+    function searchNaverDict() {
+        const rawInput = document.getElementById('naver-dict-input').value.trim();
         if (!rawInput) {
-            alert('검색할 한자나 단어를 입력해주세요.');
+            alert('검색할 단어를 입력해주세요.');
             return;
         }
         const queries = rawInput.split(/[\s,]+/).filter(q => q.trim().length > 0);
@@ -421,9 +428,10 @@ $5</textarea>
                 return;
             }
         }
+        const dictType = document.getElementById('naver-dict-select').value || 'hanja';
 
         queries.forEach((query, index) => {
-            const searchUrl = `https://hanja.dict.naver.com/#/search?query=${encodeURIComponent(query)}&range=all`;
+            const searchUrl = `https://${dictType}.dict.naver.com/#/search?query=${encodeURIComponent(query)}&range=all`;
             setTimeout(() => {
                 window.open(searchUrl, '_blank');
             }, index * 200);
@@ -706,6 +714,20 @@ $5</textarea>
     }
 
     // --- Tab 4: 이미지 텍스트 합성 & 서식 프리셋 관리 엔진 ---
+    function deleteInput(targetId, secondaryId = null) {
+        document.getElementById(targetId).value='';
+        if (secondaryId) {
+            document.getElementById(secondaryId).value='';
+        }
+
+        if (targetId === 'img-text-input' || secondaryId === 'img-text-input') {
+            drawFinalCanvas();
+        } else if (targetId === 'tag-source-input' || secondaryId === 'tag-source-input') {
+            extractHashTags();
+        }
+    }
+
+    
     let uploadedImage = null;
 
     // --- GitHub API를 이용해 img 폴더 내 이미지 자동 로드 ---
