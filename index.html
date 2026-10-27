@@ -645,7 +645,7 @@ $5</textarea>
         globalTagList = extractedTags;
         globalProblemText = problemLines.join('\n');
         
-        let finalAnswerHtml = `<span style="font-weight: bold; font-size: 24px; color: #000000; background: transparent;">#정답</span><br>` + answerHtmlLines.join('<br>');
+        let finalAnswerHtml = `<br><br><span style="font-weight: bold; font-size: 24px; color: #000000; background: transparent;">#정답</span><br>` + answerHtmlLines.join('<br>');
 
         probOutputBox.textContent = globalProblemText;
         ansContentBox.innerHTML = finalAnswerHtml;
